@@ -33,7 +33,7 @@ export function isOwlEnabled(): boolean {
   if (typeof window !== 'undefined') {
     return false
   }
-  return process.env.NEXT_PUBLIC_OWL_ENABLED === 'true'
+  return false
 }
 
 export function getOwlConfig() {
@@ -56,16 +56,16 @@ export function getOwlConfig() {
 
   return {
     enabled: isOwlEnabled(),
-    apiEndpoint: process.env.NEXT_PUBLIC_OWL_API_ENDPOINT || 'http://localhost:8000',
+    apiEndpoint: 'http://localhost:8000',
     modelConfig: {
-      provider: process.env.NEXT_PUBLIC_OWL_MODEL_PROVIDER || 'openai',
-      model: process.env.NEXT_PUBLIC_OWL_MODEL || 'gpt-4o-mini',
-      apiKey: process.env.OPENAI_API_KEY,
+      provider: 'openai',
+      model: 'gpt-4o-mini',
+      apiKey: undefined,
     },
     agentConfig: {
-      maxRounds: parseInt(process.env.NEXT_PUBLIC_OWL_MAX_ROUNDS || '15'),
-      enableToolCalls: process.env.NEXT_PUBLIC_OWL_ENABLE_TOOLS !== 'false',
-      enableMultiAgent: process.env.NEXT_PUBLIC_OWL_ENABLE_MULTI_AGENT !== 'false',
+      maxRounds: 15,
+      enableToolCalls: true,
+      enableMultiAgent: true,
     },
   }
 }
