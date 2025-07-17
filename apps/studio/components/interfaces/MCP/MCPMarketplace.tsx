@@ -1,7 +1,11 @@
 import { useState, useMemo } from 'react'
 import { Search, Filter } from 'lucide-react'
 import { Input, Button } from 'ui'
-import { MCP_SERVER_TEMPLATES, searchMCPTemplates, getMCPTemplatesByCategory } from 'lib/mcp/templates'
+import {
+  MCP_SERVER_TEMPLATES,
+  searchMCPTemplates,
+  getMCPTemplatesByCategory,
+} from 'lib/mcp/templates'
 import { useMCPServerInstallationsQuery } from 'data/mcp/mcp-server-installations-query'
 import { useProjectContext } from 'components/layouts/ProjectLayout/ProjectContext'
 import MCPServerCard from './MCPServerCard'
@@ -13,17 +17,18 @@ const MCPMarketplace = () => {
   const [sortBy, setSortBy] = useState<'rating' | 'downloads' | 'name'>('rating')
 
   const { data: installations } = useMCPServerInstallationsQuery({
-    projectRef: project?.ref
+    projectRef: project?.ref,
   })
 
   const installedServerIds = useMemo(() => {
-    return new Set(installations?.map(installation => installation.templateId) || [])
+    return new Set(installations?.map((installation) => installation.templateId) || [])
   }, [installations])
 
   const filteredTemplates = useMemo(() => {
-    let templates = selectedCategory === 'all' 
-      ? MCP_SERVER_TEMPLATES 
-      : getMCPTemplatesByCategory(selectedCategory)
+    let templates =
+      selectedCategory === 'all'
+        ? MCP_SERVER_TEMPLATES
+        : getMCPTemplatesByCategory(selectedCategory)
 
     if (searchQuery) {
       templates = searchMCPTemplates(searchQuery)
@@ -101,9 +106,7 @@ const MCPMarketplace = () => {
             key={template.id}
             template={template}
             isInstalled={installedServerIds.has(template.id)}
-            onInstall={() => {
-              
-            }}
+            onInstall={() => {}}
           />
         ))}
       </div>

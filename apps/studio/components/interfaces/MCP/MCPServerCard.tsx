@@ -22,7 +22,7 @@ const MCPServerCard = ({ template, isInstalled = false, onInstall }: MCPServerCa
     },
     onError: () => {
       setIsInstalling(false)
-    }
+    },
   })
 
   const handleInstall = () => {
@@ -31,7 +31,7 @@ const MCPServerCard = ({ template, isInstalled = false, onInstall }: MCPServerCa
     installServer({
       projectRef: project.ref,
       templateId: template.id,
-      config: template.config
+      config: template.config,
     })
   }
 
@@ -46,12 +46,8 @@ const MCPServerCard = ({ template, isInstalled = false, onInstall }: MCPServerCa
           </div>
           <div className="flex flex-col">
             <div className="flex items-center space-x-2">
-              <h3 className="text-sm font-medium text-foreground truncate">
-                {template.name}
-              </h3>
-              {template.verified && (
-                <Shield className="w-3 h-3 text-brand-600" />
-              )}
+              <h3 className="text-sm font-medium text-foreground truncate">{template.name}</h3>
+              {template.verified && <Shield className="w-3 h-3 text-brand-600" />}
             </div>
             <p className="text-xs text-foreground-light">v{template.version}</p>
           </div>
@@ -61,12 +57,7 @@ const MCPServerCard = ({ template, isInstalled = false, onInstall }: MCPServerCa
           {isInstalled ? (
             <Badge variant="success">Installed</Badge>
           ) : (
-            <Button
-              type="primary"
-              size="tiny"
-              loading={isInstalling}
-              onClick={handleInstall}
-            >
+            <Button type="primary" size="tiny" loading={isInstalling} onClick={handleInstall}>
               Install
             </Button>
           )}

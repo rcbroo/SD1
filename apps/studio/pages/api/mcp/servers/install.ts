@@ -34,7 +34,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const installationResult = {
       success: true,
       message: `MCP server ${template.name} installation initiated`,
-      serverId: `${projectRef}-${templateId}-${Date.now()}`
+      serverId: `${projectRef}-${templateId}-${Date.now()}`,
     }
 
     const installation = {
@@ -49,7 +49,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     res.status(200).json({
       success: true,
       installation,
-      owlResult: installationResult
+      owlResult: installationResult,
     })
   } catch (error) {
     console.error('MCP server installation error:', error)

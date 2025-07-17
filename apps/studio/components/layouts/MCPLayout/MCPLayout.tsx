@@ -18,21 +18,14 @@ const MCPProductMenu = () => {
 
   return (
     <>
-      <ProductMenu
-        page={page}
-        menu={generateMCPMenu(project)}
-      />
+      <ProductMenu page={page} menu={generateMCPMenu(project)} />
     </>
   )
 }
 
 const MCPLayout = ({ children }: PropsWithChildren<MCPLayoutProps>) => {
   return (
-    <ProjectLayout 
-      product="MCP Servers" 
-      productMenu={<MCPProductMenu />} 
-      isBlocking={false}
-    >
+    <ProjectLayout product="MCP Servers" productMenu={<MCPProductMenu />} isBlocking={false}>
       {children}
     </ProjectLayout>
   )

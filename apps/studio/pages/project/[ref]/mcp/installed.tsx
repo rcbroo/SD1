@@ -12,7 +12,7 @@ import type { NextPageWithLayout } from 'types'
 const MCPInstalledServersPage: NextPageWithLayout = () => {
   const { project } = useProjectContext()
   const { data: installations, isLoading } = useMCPServerInstallationsQuery({
-    projectRef: project?.ref
+    projectRef: project?.ref,
   })
 
   if (isLoading) {
@@ -70,8 +70,8 @@ const MCPInstalledServersPage: NextPageWithLayout = () => {
                           installation.status === 'installed'
                             ? 'success'
                             : installation.status === 'failed'
-                            ? 'destructive'
-                            : 'default'
+                              ? 'destructive'
+                              : 'default'
                         }
                       >
                         {installation.status}

@@ -22,7 +22,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const installations = []
 
     res.status(200).json({
-      installations
+      installations,
     })
   } catch (error) {
     console.error('MCP server installations query error:', error)

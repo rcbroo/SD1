@@ -13,18 +13,22 @@ const MCPConfigurationPage: NextPageWithLayout = () => {
     globalTimeout: '30000',
     maxConcurrentServers: '10',
     logLevel: 'info',
-    customConfig: JSON.stringify({
-      mcpServers: {
-        'supabase-db-proxy': {
-          command: 'npx',
-          args: ['-y', '@supabase/mcp-server-supabase'],
-          env: {
-            SUPABASE_URL: '{{SUPABASE_URL}}',
-            SUPABASE_ANON_KEY: '{{SUPABASE_ANON_KEY}}'
-          }
-        }
-      }
-    }, null, 2)
+    customConfig: JSON.stringify(
+      {
+        mcpServers: {
+          'supabase-db-proxy': {
+            command: 'npx',
+            args: ['-y', '@supabase/mcp-server-supabase'],
+            env: {
+              SUPABASE_URL: '{{SUPABASE_URL}}',
+              SUPABASE_ANON_KEY: '{{SUPABASE_ANON_KEY}}',
+            },
+          },
+        },
+      },
+      null,
+      2
+    ),
   })
 
   const handleSave = () => {
@@ -47,7 +51,7 @@ const MCPConfigurationPage: NextPageWithLayout = () => {
               <Settings className="w-5 h-5 mr-2" />
               Global Settings
             </h2>
-            
+
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-foreground mb-2">
@@ -55,7 +59,9 @@ const MCPConfigurationPage: NextPageWithLayout = () => {
                 </label>
                 <Input
                   value={config.globalTimeout}
-                  onChange={(e) => setConfig(prev => ({ ...prev, globalTimeout: e.target.value }))}
+                  onChange={(e) =>
+                    setConfig((prev) => ({ ...prev, globalTimeout: e.target.value }))
+                  }
                   placeholder="30000"
                 />
               </div>
@@ -66,18 +72,18 @@ const MCPConfigurationPage: NextPageWithLayout = () => {
                 </label>
                 <Input
                   value={config.maxConcurrentServers}
-                  onChange={(e) => setConfig(prev => ({ ...prev, maxConcurrentServers: e.target.value }))}
+                  onChange={(e) =>
+                    setConfig((prev) => ({ ...prev, maxConcurrentServers: e.target.value }))
+                  }
                   placeholder="10"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Log Level
-                </label>
+                <label className="block text-sm font-medium text-foreground mb-2">Log Level</label>
                 <select
                   value={config.logLevel}
-                  onChange={(e) => setConfig(prev => ({ ...prev, logLevel: e.target.value }))}
+                  onChange={(e) => setConfig((prev) => ({ ...prev, logLevel: e.target.value }))}
                   className="w-full px-3 py-2 border border-overlay rounded text-sm"
                 >
                   <option value="debug">Debug</option>
@@ -96,14 +102,14 @@ const MCPConfigurationPage: NextPageWithLayout = () => {
               <FileText className="w-5 h-5 mr-2" />
               Custom Configuration
             </h2>
-            
+
             <div>
               <label className="block text-sm font-medium text-foreground mb-2">
                 mcp_servers_config.json
               </label>
               <Textarea
                 value={config.customConfig}
-                onChange={(e) => setConfig(prev => ({ ...prev, customConfig: e.target.value }))}
+                onChange={(e) => setConfig((prev) => ({ ...prev, customConfig: e.target.value }))}
                 rows={20}
                 className="font-mono text-xs"
                 placeholder="Enter custom MCP server configuration..."

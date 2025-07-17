@@ -17,14 +17,14 @@ export const MCP_SERVER_TEMPLATES: MCPServerTemplate[] = [
       args: ['-y', '@supabase/mcp-server-supabase'],
       env: {
         SUPABASE_URL: '{{SUPABASE_URL}}',
-        SUPABASE_ANON_KEY: '{{SUPABASE_ANON_KEY}}'
-      }
+        SUPABASE_ANON_KEY: '{{SUPABASE_ANON_KEY}}',
+      },
     },
     permissions: ['database.read'],
     rating: 4.8,
     downloads: 15420,
     verified: true,
-    tags: ['database', 'sql', 'supabase', 'read-only']
+    tags: ['database', 'sql', 'supabase', 'read-only'],
   },
   {
     id: '3d-processor',
@@ -39,14 +39,14 @@ export const MCP_SERVER_TEMPLATES: MCPServerTemplate[] = [
       args: ['-m', 'supadirect.processors.3d'],
       requirements: {
         python: '>=3.8',
-        system: ['blender', 'meshlab']
-      }
+        system: ['blender', 'meshlab'],
+      },
     },
     permissions: ['storage.read', 'storage.write'],
     rating: 4.5,
     downloads: 3240,
     verified: true,
-    tags: ['3d', 'models', 'optimization', 'conversion']
+    tags: ['3d', 'models', 'optimization', 'conversion'],
   },
   {
     id: 'xr-converter',
@@ -60,14 +60,14 @@ export const MCP_SERVER_TEMPLATES: MCPServerTemplate[] = [
       command: 'npx',
       args: ['-y', '@supadirect/xr-converter'],
       requirements: {
-        node: '>=18.0.0'
-      }
+        node: '>=18.0.0',
+      },
     },
     permissions: ['storage.read', 'storage.write'],
     rating: 4.2,
     downloads: 1850,
     verified: true,
-    tags: ['xr', 'ar', 'vr', 'conversion', 'immersive']
+    tags: ['xr', 'ar', 'vr', 'conversion', 'immersive'],
   },
   {
     id: 'content-analyzer',
@@ -79,13 +79,13 @@ export const MCP_SERVER_TEMPLATES: MCPServerTemplate[] = [
     author: 'Supadirect',
     config: {
       command: 'npx',
-      args: ['-y', '@supadirect/content-analyzer']
+      args: ['-y', '@supadirect/content-analyzer'],
     },
     permissions: ['content.read', 'content.write'],
     rating: 4.7,
     downloads: 8920,
     verified: true,
-    tags: ['seo', 'content', 'optimization', 'analytics']
+    tags: ['seo', 'content', 'optimization', 'analytics'],
   },
   {
     id: 'security-scanner',
@@ -99,14 +99,14 @@ export const MCP_SERVER_TEMPLATES: MCPServerTemplate[] = [
       command: 'docker',
       args: ['run', '--rm', '-v', '{{PROJECT_PATH}}:/zap/wrk/:rw', 'owasp/zap2docker-stable'],
       requirements: {
-        system: ['docker']
-      }
+        system: ['docker'],
+      },
     },
     permissions: ['security.scan'],
     rating: 4.6,
     downloads: 5670,
     verified: true,
-    tags: ['security', 'owasp', 'scanning', 'vulnerability']
+    tags: ['security', 'owasp', 'scanning', 'vulnerability'],
   },
   {
     id: 'playwright-automation',
@@ -121,14 +121,14 @@ export const MCP_SERVER_TEMPLATES: MCPServerTemplate[] = [
       command: 'npx',
       args: ['-y', '@executeautomation/playwright-mcp-server'],
       requirements: {
-        node: '>=16.0.0'
-      }
+        node: '>=16.0.0',
+      },
     },
     permissions: ['automation.browser'],
     rating: 4.9,
     downloads: 25340,
     verified: true,
-    tags: ['automation', 'testing', 'browser', 'playwright']
+    tags: ['automation', 'testing', 'browser', 'playwright'],
   },
   {
     id: 'whatsapp-connector',
@@ -143,31 +143,32 @@ export const MCP_SERVER_TEMPLATES: MCPServerTemplate[] = [
       command: 'uv',
       args: ['--directory', '{{WHATSAPP_MCP_PATH}}', 'run', 'main.py'],
       requirements: {
-        python: '>=3.6'
-      }
+        python: '>=3.6',
+      },
     },
     permissions: ['communication.whatsapp'],
     rating: 4.1,
     downloads: 2180,
     verified: false,
-    tags: ['whatsapp', 'messaging', 'communication', 'automation']
-  }
+    tags: ['whatsapp', 'messaging', 'communication', 'automation'],
+  },
 ]
 
 export const getMCPTemplatesByCategory = (category?: string) => {
   if (!category) return MCP_SERVER_TEMPLATES
-  return MCP_SERVER_TEMPLATES.filter(template => template.category === category)
+  return MCP_SERVER_TEMPLATES.filter((template) => template.category === category)
 }
 
 export const getMCPTemplateById = (id: string) => {
-  return MCP_SERVER_TEMPLATES.find(template => template.id === id)
+  return MCP_SERVER_TEMPLATES.find((template) => template.id === id)
 }
 
 export const searchMCPTemplates = (query: string) => {
   const lowercaseQuery = query.toLowerCase()
-  return MCP_SERVER_TEMPLATES.filter(template =>
-    template.name.toLowerCase().includes(lowercaseQuery) ||
-    template.description.toLowerCase().includes(lowercaseQuery) ||
-    template.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery))
+  return MCP_SERVER_TEMPLATES.filter(
+    (template) =>
+      template.name.toLowerCase().includes(lowercaseQuery) ||
+      template.description.toLowerCase().includes(lowercaseQuery) ||
+      template.tags.some((tag) => tag.toLowerCase().includes(lowercaseQuery))
   )
 }

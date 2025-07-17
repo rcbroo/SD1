@@ -11,7 +11,7 @@ export async function getMCPServerInstallations({
   if (!projectRef) return []
 
   const response = await fetch(`/api/mcp/servers/installations?projectRef=${projectRef}`)
-  
+
   if (!response.ok) {
     throw new Error('Failed to fetch MCP server installations')
   }
@@ -20,9 +20,7 @@ export async function getMCPServerInstallations({
   return data.installations || []
 }
 
-export const useMCPServerInstallationsQuery = ({
-  projectRef,
-}: MCPServerInstallationsVariables) => {
+export const useMCPServerInstallationsQuery = ({ projectRef }: MCPServerInstallationsVariables) => {
   return useQuery({
     queryKey: ['mcp-server-installations', projectRef],
     queryFn: () => getMCPServerInstallations({ projectRef }),
