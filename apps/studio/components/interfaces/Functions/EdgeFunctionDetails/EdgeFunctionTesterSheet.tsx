@@ -295,7 +295,7 @@ export const EdgeFunctionTesterSheet = ({ visible, onClose }: EdgeFunctionTester
             className="flex-1 overflow-y-auto flex flex-col"
           >
             <ResizablePanelGroup direction="vertical">
-              <ResizablePanel>
+              <ResizablePanel defaultSize={59}>
                 <div className="flex flex-col gap-y-4 p-5 h-full overflow-y-auto">
                   <FormField_Shadcn_
                     control={form.control}
