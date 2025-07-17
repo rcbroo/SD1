@@ -1,4 +1,4 @@
-import { Database, Cpu, Cube, FileText, Shield, Bot, MessageSquare, Globe } from 'lucide-react'
+import { Database, Cpu, Box, FileText, Shield, Bot, MessageSquare, Globe } from 'lucide-react'
 import { MCPServerTemplate } from './types'
 
 export const MCP_SERVER_TEMPLATES: MCPServerTemplate[] = [
@@ -31,7 +31,7 @@ export const MCP_SERVER_TEMPLATES: MCPServerTemplate[] = [
     name: '3D Model Processor',
     description: 'Process and optimize 3D models with format conversion and compression',
     category: '3d',
-    icon: Cube,
+    icon: Box,
     version: '1.2.1',
     author: 'Supadirect',
     config: {
