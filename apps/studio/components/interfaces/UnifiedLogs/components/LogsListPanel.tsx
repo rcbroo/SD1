@@ -15,7 +15,7 @@ export const LogsListPanel = ({ selectedRow }: { selectedRow?: Row<any> }) => {
         <ResizableHandle withHandle disabled={!open} />
         <ResizablePanel
           order={2}
-          defaultSize={1}
+          defaultSize={20}
           maxSize={50}
           minSize={open ? 16 : 12}
           className={cn(!open ? '!h-12 max-h-12' : 'h-min-16 h-max-32')}

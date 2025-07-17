@@ -76,7 +76,7 @@ export function ServiceFlowPanel({
         <ResizablePanel
           id="log-sidepanel"
           order={2}
-          defaultSize={1}
+          defaultSize={20}
           maxSize={40}
           className={cn(
             'bg-dash-sidebar',
