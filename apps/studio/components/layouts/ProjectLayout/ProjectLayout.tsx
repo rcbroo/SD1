@@ -164,7 +164,7 @@ const ProjectLayout = forwardRef<HTMLDivElement, PropsWithChildren<ProjectLayout
               <ResizablePanel
                 order={1}
                 maxSize={33}
-                defaultSize={1}
+                defaultSize={20}
                 id="panel-left"
                 className={cn(
                   'hidden md:block',
@@ -212,6 +212,7 @@ const ProjectLayout = forwardRef<HTMLDivElement, PropsWithChildren<ProjectLayout
               >
                 <ResizablePanel
                   id="panel-content"
+                  defaultSize={80}
                   className={cn('w-full xl:min-w-[600px] bg-dash-sidebar')}
                 >
                   <main
@@ -237,6 +238,7 @@ const ProjectLayout = forwardRef<HTMLDivElement, PropsWithChildren<ProjectLayout
                     <ResizableHandle withHandle />
                     <ResizablePanel
                       id="panel-assistant"
+                      defaultSize={40}
                       minSize={30}
                       maxSize={50}
                       className={cn(
