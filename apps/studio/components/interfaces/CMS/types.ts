@@ -85,3 +85,34 @@ export interface CMSAIAssistant {
     seoKeywords: string[]
   }
 }
+
+export interface CMSCollaboration {
+  enabled: boolean
+  sessionId: string
+  participants: CMSParticipant[]
+  cursors: CMSCursor[]
+  changes: CMSChange[]
+}
+
+export interface CMSParticipant {
+  id: string
+  name: string
+  avatar?: string
+  color: string
+  lastSeen: string
+}
+
+export interface CMSCursor {
+  userId: string
+  position: number
+  selection?: { start: number; end: number }
+}
+
+export interface CMSChange {
+  id: string
+  userId: string
+  type: 'insert' | 'delete' | 'format'
+  position: number
+  content?: string
+  timestamp: string
+}

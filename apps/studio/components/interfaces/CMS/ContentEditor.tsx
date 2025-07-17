@@ -52,18 +52,25 @@ const ContentEditor = ({ content, onSave, onPreview, aiAssistant }: ContentEdito
     }
   }
 
-  const handleAIAssist = async (feature: string) => {
+  const handleOWLAssist = async (feature: string) => {
     if (!aiAssistant?.enabled) return
 
     setIsAIGenerating(true)
     try {
-      const response = await fetch('/api/ai/cms/assist', {
+      const response = await fetch('/api/ai/owl/run-society', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          feature,
-          content: formData,
-          settings: aiAssistant.settings,
+          task: `${feature} for content: ${formData.title}`,
+          userRoleName: 'Content Creator',
+          assistantRoleName: 'Content Assistant',
+          context: {
+            contentType: formData.type,
+            currentContent: formData.content,
+            seoKeywords: aiAssistant.settings.seoKeywords,
+            tone: aiAssistant.settings.tone,
+            targetAudience: aiAssistant.settings.targetAudience,
+          },
         }),
       })
 
@@ -71,19 +78,24 @@ const ContentEditor = ({ content, onSave, onPreview, aiAssistant }: ContentEdito
 
       switch (feature) {
         case 'generateContent':
-          handleInputChange('content', result.content)
+          handleInputChange('content', result.answer)
           break
         case 'optimizeSEO':
-          handleInputChange('seo_title', result.seoTitle)
-          handleInputChange('seo_description', result.seoDescription)
-          handleInputChange('seo_keywords', result.seoKeywords)
+          try {
+            const seoData = JSON.parse(result.answer)
+            handleInputChange('seo_title', seoData.title)
+            handleInputChange('seo_description', seoData.description)
+            handleInputChange('seo_keywords', seoData.keywords)
+          } catch {
+            handleInputChange('seo_title', result.answer)
+          }
           break
         case 'generateExcerpt':
-          handleInputChange('excerpt', result.excerpt)
+          handleInputChange('excerpt', result.answer)
           break
       }
     } catch (error) {
-      console.error('AI assist error:', error)
+      console.error('OWL assist error:', error)
     } finally {
       setIsAIGenerating(false)
     }
@@ -136,7 +148,7 @@ const ContentEditor = ({ content, onSave, onPreview, aiAssistant }: ContentEdito
               <Button
                 type="outline"
                 size="tiny"
-                onClick={() => handleAIAssist('generateContent')}
+                onClick={() => handleOWLAssist('generateContent')}
                 loading={isAIGenerating}
               >
                 <Sparkles className="w-3 h-3 mr-1" />
@@ -160,7 +172,7 @@ const ContentEditor = ({ content, onSave, onPreview, aiAssistant }: ContentEdito
               <Button
                 type="outline"
                 size="tiny"
-                onClick={() => handleAIAssist('generateExcerpt')}
+                onClick={() => handleOWLAssist('generateExcerpt')}
                 loading={isAIGenerating}
               >
                 <Sparkles className="w-3 h-3 mr-1" />
@@ -183,7 +195,7 @@ const ContentEditor = ({ content, onSave, onPreview, aiAssistant }: ContentEdito
               <Button
                 type="outline"
                 size="small"
-                onClick={() => handleAIAssist('optimizeSEO')}
+                onClick={() => handleOWLAssist('optimizeSEO')}
                 loading={isAIGenerating}
               >
                 <Sparkles className="w-4 h-4 mr-2" />

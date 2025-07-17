@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Button, cn } from 'ui'
-import { FileText, Image, Settings, Tag, Users, Workflow } from 'lucide-react'
+import { FileText, Image, Settings, Tag, Users, Workflow, Edit } from 'lucide-react'
 
 interface CMSLayoutProps {
   children: React.ReactNode
@@ -13,10 +13,11 @@ const CMSLayout = ({ children, activeTab = 'content', onTabChange }: CMSLayoutPr
 
   const tabs = [
     { id: 'content', label: 'Content', icon: FileText },
+    { id: 'visual', label: 'Visual Editor', icon: Edit },
     { id: 'media', label: 'Media', icon: Image },
     { id: 'categories', label: 'Categories', icon: Tag },
     { id: 'workflows', label: 'Workflows', icon: Workflow },
-    { id: 'users', label: 'Users', icon: Users },
+    { id: 'collaboration', label: 'Collaboration', icon: Users },
     { id: 'settings', label: 'Settings', icon: Settings },
   ]
 
