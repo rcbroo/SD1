@@ -204,7 +204,7 @@ const ProjectLayout = forwardRef<HTMLDivElement, PropsWithChildren<ProjectLayout
                 className="hidden md:flex"
               />
             )}
-            <ResizablePanel order={2} id="panel-right" className="h-full flex flex-col w-full">
+            <ResizablePanel order={2} id="panel-right" defaultSize={80} className="h-full flex flex-col w-full">
               <ResizablePanelGroup
                 direction="horizontal"
                 className="h-full w-full overflow-x-hidden flex-1 flex flex-row gap-0"
