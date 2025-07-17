@@ -98,3 +98,34 @@ export interface SelectionCriteria {
   minQuality?: number
   requireCapabilities?: string[]
 }
+
+export interface AIProviderTemplate {
+  id: string
+  name: string
+  provider: string
+  category: 'language' | 'multimodal' | 'local' | 'gpu-compute' | 'embedding' | 'image' | 'audio'
+  icon: React.ComponentType<{ className?: string }>
+  version: string
+  description: string
+  capabilities: string[]
+  pricing: {
+    input: number
+    output: number
+    unit: string
+  }
+  performance: {
+    latency: number
+    throughput: number
+    reliability: number
+  }
+  limits: {
+    contextWindow: number | string
+    maxTokens: number | string
+    rateLimit: string
+  }
+  config: Record<string, any>
+  verified: boolean
+  rating: number
+  usage: number
+  tags: string[]
+}
