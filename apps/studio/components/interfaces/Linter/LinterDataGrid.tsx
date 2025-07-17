@@ -132,7 +132,7 @@ const LinterDataGrid = ({
       className="relative flex flex-grow bg-alternative min-h-0"
       autoSaveId="linter-layout-v1"
     >
-      <ResizablePanel defaultSize={1}>
+      <ResizablePanel defaultSize={70}>
         <DataGrid
           ref={gridRef}
           style={{ height: '100%' }}
