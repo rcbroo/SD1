@@ -16,21 +16,26 @@ const ContentList = ({ contents, onEdit, onCreate, onDelete, onPreview }: Conten
   const [statusFilter, setStatusFilter] = useState<string>('all')
   const [typeFilter, setTypeFilter] = useState<string>('all')
 
-  const filteredContents = contents.filter(content => {
-    const matchesSearch = content.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         content.content.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredContents = contents.filter((content) => {
+    const matchesSearch =
+      content.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      content.content.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesStatus = statusFilter === 'all' || content.status === statusFilter
     const matchesType = typeFilter === 'all' || content.type === typeFilter
-    
+
     return matchesSearch && matchesStatus && matchesType
   })
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'published': return 'text-green-600 bg-green-100'
-      case 'draft': return 'text-yellow-600 bg-yellow-100'
-      case 'archived': return 'text-gray-600 bg-gray-100'
-      default: return 'text-gray-600 bg-gray-100'
+      case 'published':
+        return 'text-green-600 bg-green-100'
+      case 'draft':
+        return 'text-yellow-600 bg-yellow-100'
+      case 'archived':
+        return 'text-gray-600 bg-gray-100'
+      default:
+        return 'text-gray-600 bg-gray-100'
     }
   }
 
@@ -56,7 +61,7 @@ const ContentList = ({ contents, onEdit, onCreate, onDelete, onPreview }: Conten
             />
           </div>
         </div>
-        
+
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
@@ -67,7 +72,7 @@ const ContentList = ({ contents, onEdit, onCreate, onDelete, onPreview }: Conten
           <option value="published">Published</option>
           <option value="archived">Archived</option>
         </select>
-        
+
         <select
           value={typeFilter}
           onChange={(e) => setTypeFilter(e.target.value)}
@@ -107,9 +112,7 @@ const ContentList = ({ contents, onEdit, onCreate, onDelete, onPreview }: Conten
                 <tr key={content.id} className="hover:bg-surface-200">
                   <td className="px-6 py-4">
                     <div>
-                      <div className="text-sm font-medium text-foreground">
-                        {content.title}
-                      </div>
+                      <div className="text-sm font-medium text-foreground">{content.title}</div>
                       {content.excerpt && (
                         <div className="text-sm text-foreground-muted truncate max-w-xs">
                           {content.excerpt}
@@ -121,7 +124,9 @@ const ContentList = ({ contents, onEdit, onCreate, onDelete, onPreview }: Conten
                     {content.type}
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(content.status)}`}>
+                    <span
+                      className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(content.status)}`}
+                    >
                       {content.status}
                     </span>
                   </td>
@@ -131,26 +136,14 @@ const ContentList = ({ contents, onEdit, onCreate, onDelete, onPreview }: Conten
                   <td className="px-6 py-4">
                     <div className="flex gap-2">
                       {onPreview && (
-                        <Button
-                          type="outline"
-                          size="tiny"
-                          onClick={() => onPreview(content)}
-                        >
+                        <Button type="outline" size="tiny" onClick={() => onPreview(content)}>
                           <Eye className="w-3 h-3" />
                         </Button>
                       )}
-                      <Button
-                        type="outline"
-                        size="tiny"
-                        onClick={() => onEdit(content)}
-                      >
+                      <Button type="outline" size="tiny" onClick={() => onEdit(content)}>
                         <Edit className="w-3 h-3" />
                       </Button>
-                      <Button
-                        type="outline"
-                        size="tiny"
-                        onClick={() => onDelete(content.id)}
-                      >
+                      <Button type="outline" size="tiny" onClick={() => onDelete(content.id)}>
                         <Trash2 className="w-3 h-3" />
                       </Button>
                     </div>
@@ -160,7 +153,7 @@ const ContentList = ({ contents, onEdit, onCreate, onDelete, onPreview }: Conten
             </tbody>
           </table>
         </div>
-        
+
         {filteredContents.length === 0 && (
           <div className="text-center py-12">
             <div className="text-foreground-muted">

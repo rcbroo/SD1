@@ -11,14 +11,21 @@ interface MediaLibraryProps {
   selectable?: boolean
 }
 
-const MediaLibrary = ({ media, onUpload, onDelete, onSelect, selectable = false }: MediaLibraryProps) => {
+const MediaLibrary = ({
+  media,
+  onUpload,
+  onDelete,
+  onSelect,
+  selectable = false,
+}: MediaLibraryProps) => {
   const [searchTerm, setSearchTerm] = useState('')
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [selectedMedia, setSelectedMedia] = useState<string[]>([])
 
-  const filteredMedia = media.filter(item =>
-    item.filename.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.alt_text?.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredMedia = media.filter(
+    (item) =>
+      item.filename.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.alt_text?.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,9 +39,9 @@ const MediaLibrary = ({ media, onUpload, onDelete, onSelect, selectable = false 
     if (selectable && onSelect) {
       onSelect(mediaItem)
     } else {
-      setSelectedMedia(prev => 
-        prev.includes(mediaItem.id) 
-          ? prev.filter(id => id !== mediaItem.id)
+      setSelectedMedia((prev) =>
+        prev.includes(mediaItem.id)
+          ? prev.filter((id) => id !== mediaItem.id)
           : [...prev, mediaItem.id]
       )
     }
@@ -84,7 +91,7 @@ const MediaLibrary = ({ media, onUpload, onDelete, onSelect, selectable = false 
             />
           </div>
         </div>
-        
+
         <div className="flex gap-1">
           <Button
             type={viewMode === 'grid' ? 'default' : 'outline'}
@@ -129,9 +136,7 @@ const MediaLibrary = ({ media, onUpload, onDelete, onSelect, selectable = false 
               <div className="text-xs text-foreground truncate" title={item.filename}>
                 {item.filename}
               </div>
-              <div className="text-xs text-foreground-muted">
-                {formatFileSize(item.size)}
-              </div>
+              <div className="text-xs text-foreground-muted">{formatFileSize(item.size)}</div>
             </div>
           ))}
         </div>
@@ -186,18 +191,12 @@ const MediaLibrary = ({ media, onUpload, onDelete, onSelect, selectable = false 
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="text-sm font-medium text-foreground">
-                        {item.filename}
-                      </div>
+                      <div className="text-sm font-medium text-foreground">{item.filename}</div>
                       {item.alt_text && (
-                        <div className="text-sm text-foreground-muted">
-                          {item.alt_text}
-                        </div>
+                        <div className="text-sm text-foreground-muted">{item.alt_text}</div>
                       )}
                     </td>
-                    <td className="px-6 py-4 text-sm text-foreground-muted">
-                      {item.mime_type}
-                    </td>
+                    <td className="px-6 py-4 text-sm text-foreground-muted">{item.mime_type}</td>
                     <td className="px-6 py-4 text-sm text-foreground-muted">
                       {formatFileSize(item.size)}
                     </td>

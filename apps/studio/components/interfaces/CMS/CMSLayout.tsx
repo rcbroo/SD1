@@ -52,9 +52,7 @@ const CMSLayout = ({ children, activeTab = 'content', onTabChange }: CMSLayoutPr
           </nav>
         </div>
       </div>
-      <div className="flex-1 overflow-auto">
-        {children}
-      </div>
+      <div className="flex-1 overflow-auto">{children}</div>
     </div>
   )
 }

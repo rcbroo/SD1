@@ -16,7 +16,7 @@ export class OwlClient {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.config.modelConfig.apiKey}`,
+        Authorization: `Bearer ${this.config.modelConfig.apiKey}`,
       },
       body: JSON.stringify({
         ...societyConfig,
@@ -44,7 +44,7 @@ export class OwlClient {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.config.modelConfig.apiKey}`,
+        Authorization: `Bearer ${this.config.modelConfig.apiKey}`,
       },
       body: JSON.stringify({
         ...societyConfig,
@@ -63,7 +63,7 @@ export class OwlClient {
     }
 
     const decoder = new TextDecoder()
-    
+
     try {
       while (true) {
         const { done, value } = await reader.read()
@@ -71,7 +71,7 @@ export class OwlClient {
 
         const chunk = decoder.decode(value)
         const lines = chunk.split('\n')
-        
+
         for (const line of lines) {
           if (line.startsWith('data: ')) {
             try {

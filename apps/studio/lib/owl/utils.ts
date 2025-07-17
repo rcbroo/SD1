@@ -9,7 +9,7 @@ export function createUserAgent(): OwlAgent {
   return {
     role: 'user',
     name: 'User',
-    capabilities: ['task_planning', 'instruction_giving', 'verification']
+    capabilities: ['task_planning', 'instruction_giving', 'verification'],
   }
 }
 
@@ -17,7 +17,7 @@ export function createAssistantAgent(): OwlAgent {
   return {
     role: 'assistant',
     name: 'Assistant',
-    capabilities: ['sql_generation', 'schema_analysis', 'tool_usage', 'problem_solving']
+    capabilities: ['sql_generation', 'schema_analysis', 'tool_usage', 'problem_solving'],
   }
 }
 
@@ -25,7 +25,7 @@ export function createCoordinatorAgent(): OwlAgent {
   return {
     role: 'coordinator',
     name: 'Coordinator',
-    capabilities: ['task_coordination', 'agent_management', 'workflow_orchestration']
+    capabilities: ['task_coordination', 'agent_management', 'workflow_orchestration'],
   }
 }
 

@@ -35,7 +35,7 @@ const ContentEditor = ({ content, onSave, onPreview, aiAssistant }: ContentEdito
   }, [content])
 
   const handleInputChange = (field: keyof CMSContent, value: any) => {
-    setFormData(prev => ({ ...prev, [field]: value }))
+    setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
   const generateSlug = (title: string) => {
@@ -68,7 +68,7 @@ const ContentEditor = ({ content, onSave, onPreview, aiAssistant }: ContentEdito
       })
 
       const result = await response.json()
-      
+
       switch (feature) {
         case 'generateContent':
           handleInputChange('content', result.content)
@@ -112,9 +112,7 @@ const ContentEditor = ({ content, onSave, onPreview, aiAssistant }: ContentEdito
       <div className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-foreground mb-2">
-              Title
-            </label>
+            <label className="block text-sm font-medium text-foreground mb-2">Title</label>
             <Input
               value={formData.title || ''}
               onChange={(e) => handleTitleChange(e.target.value)}
@@ -122,9 +120,7 @@ const ContentEditor = ({ content, onSave, onPreview, aiAssistant }: ContentEdito
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-foreground mb-2">
-              Slug
-            </label>
+            <label className="block text-sm font-medium text-foreground mb-2">Slug</label>
             <Input
               value={formData.slug || ''}
               onChange={(e) => handleInputChange('slug', e.target.value)}
@@ -135,9 +131,7 @@ const ContentEditor = ({ content, onSave, onPreview, aiAssistant }: ContentEdito
 
         <div>
           <div className="flex justify-between items-center mb-2">
-            <label className="block text-sm font-medium text-foreground">
-              Content
-            </label>
+            <label className="block text-sm font-medium text-foreground">Content</label>
             {aiAssistant?.enabled && aiAssistant.features.contentGeneration && (
               <Button
                 type="outline"
@@ -161,9 +155,7 @@ const ContentEditor = ({ content, onSave, onPreview, aiAssistant }: ContentEdito
 
         <div>
           <div className="flex justify-between items-center mb-2">
-            <label className="block text-sm font-medium text-foreground">
-              Excerpt
-            </label>
+            <label className="block text-sm font-medium text-foreground">Excerpt</label>
             {aiAssistant?.enabled && aiAssistant.features.contentGeneration && (
               <Button
                 type="outline"
@@ -199,19 +191,17 @@ const ContentEditor = ({ content, onSave, onPreview, aiAssistant }: ContentEdito
               </Button>
             )}
           </div>
-          
+
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
-                SEO Title
-              </label>
+              <label className="block text-sm font-medium text-foreground mb-2">SEO Title</label>
               <Input
                 value={formData.seo_title || ''}
                 onChange={(e) => handleInputChange('seo_title', e.target.value)}
                 placeholder="SEO optimized title"
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-foreground mb-2">
                 SEO Description
