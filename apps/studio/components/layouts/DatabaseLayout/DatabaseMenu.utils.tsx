@@ -153,6 +153,13 @@ export const generateDatabaseMenu = (
       title: 'Tools',
       items: [
         {
+          name: 'MCP Servers',
+          key: 'mcp-servers',
+          url: `/project/${ref}/mcp/marketplace`,
+          rightIcon: <ArrowUpRight strokeWidth={1} className="h-4 w-4" />,
+          items: [],
+        },
+        {
           name: 'Security Advisor',
           key: 'security-advisor',
           url: `/project/${ref}/advisors/security`,
