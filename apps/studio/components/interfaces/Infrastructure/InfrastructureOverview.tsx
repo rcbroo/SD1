@@ -9,7 +9,9 @@ interface InfrastructureOverviewProps {
 }
 
 const InfrastructureOverview = ({ projectId }: InfrastructureOverviewProps) => {
-  const [selectedTab, setSelectedTab] = useState<'overview' | 'compute' | 'storage' | 'costs'>('overview')
+  const [selectedTab, setSelectedTab] = useState<'overview' | 'compute' | 'storage' | 'costs'>(
+    'overview'
+  )
 
   const mockAllocations: ResourceAllocation[] = [
     {
@@ -20,10 +22,10 @@ const InfrastructureOverview = ({ projectId }: InfrastructureOverviewProps) => {
       region: 'eu-central',
       specs: { cores: 8, memory: '32 GB' },
       status: 'active',
-      cost: { current: 39.69, projected: 1190.70, currency: 'EUR' },
+      cost: { current: 39.69, projected: 1190.7, currency: 'EUR' },
       metrics: { cpu: 45, memory: 67, requests: 1250 },
       createdAt: '2025-01-15T10:00:00Z',
-      updatedAt: '2025-01-17T09:00:00Z'
+      updatedAt: '2025-01-17T09:00:00Z',
     },
     {
       id: 'alloc-2',
@@ -33,11 +35,11 @@ const InfrastructureOverview = ({ projectId }: InfrastructureOverviewProps) => {
       region: 'global',
       specs: { capacity: '500 GB' },
       status: 'active',
-      cost: { current: 2.00, projected: 60.00, currency: 'USD' },
+      cost: { current: 2.0, projected: 60.0, currency: 'USD' },
       metrics: { storage: 78, bandwidth: 125 },
       createdAt: '2025-01-15T10:00:00Z',
-      updatedAt: '2025-01-17T09:00:00Z'
-    }
+      updatedAt: '2025-01-17T09:00:00Z',
+    },
   ]
 
   const totalMonthlyCost = useMemo(() => {
@@ -45,7 +47,7 @@ const InfrastructureOverview = ({ projectId }: InfrastructureOverviewProps) => {
   }, [mockAllocations])
 
   const activeResources = useMemo(() => {
-    return mockAllocations.filter(allocation => allocation.status === 'active').length
+    return mockAllocations.filter((allocation) => allocation.status === 'active').length
   }, [mockAllocations])
 
   const renderOverviewTab = () => (
@@ -104,7 +106,10 @@ const InfrastructureOverview = ({ projectId }: InfrastructureOverviewProps) => {
         <h3 className="text-lg font-semibold text-foreground mb-4">Resource Allocations</h3>
         <div className="space-y-4">
           {mockAllocations.map((allocation) => (
-            <div key={allocation.id} className="flex items-center justify-between p-4 bg-surface-200 rounded border border-overlay">
+            <div
+              key={allocation.id}
+              className="flex items-center justify-between p-4 bg-surface-200 rounded border border-overlay"
+            >
               <div className="flex items-center space-x-4">
                 <div className="w-8 h-8 bg-brand-200 rounded flex items-center justify-center">
                   {allocation.type === 'compute' ? (
@@ -114,12 +119,13 @@ const InfrastructureOverview = ({ projectId }: InfrastructureOverviewProps) => {
                   )}
                 </div>
                 <div>
-                  <p className="font-medium text-foreground">{allocation.provider.toUpperCase()} - {allocation.region}</p>
+                  <p className="font-medium text-foreground">
+                    {allocation.provider.toUpperCase()} - {allocation.region}
+                  </p>
                   <p className="text-sm text-foreground-light">
-                    {allocation.type === 'compute' 
+                    {allocation.type === 'compute'
                       ? `${allocation.specs.cores} cores, ${allocation.specs.memory}`
-                      : `${allocation.specs.capacity} storage`
-                    }
+                      : `${allocation.specs.capacity} storage`}
                   </p>
                 </div>
               </div>
@@ -128,8 +134,12 @@ const InfrastructureOverview = ({ projectId }: InfrastructureOverviewProps) => {
                   {allocation.status}
                 </Badge>
                 <div className="text-right">
-                  <p className="font-medium text-foreground">${allocation.cost.projected.toFixed(2)}/mo</p>
-                  <p className="text-sm text-foreground-light">Current: ${allocation.cost.current.toFixed(2)}</p>
+                  <p className="font-medium text-foreground">
+                    ${allocation.cost.projected.toFixed(2)}/mo
+                  </p>
+                  <p className="text-sm text-foreground-light">
+                    Current: ${allocation.cost.current.toFixed(2)}
+                  </p>
                 </div>
               </div>
             </div>
@@ -186,19 +196,20 @@ const InfrastructureOverview = ({ projectId }: InfrastructureOverviewProps) => {
 
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-lg font-bold text-foreground">
-                  ${provider.pricing.hourly}/hr
-                </p>
+                <p className="text-lg font-bold text-foreground">${provider.pricing.hourly}/hr</p>
                 {provider.pricing.monthly && (
-                  <p className="text-sm text-foreground-light">
-                    ${provider.pricing.monthly}/mo
-                  </p>
+                  <p className="text-sm text-foreground-light">${provider.pricing.monthly}/mo</p>
                 )}
               </div>
-              <Badge variant={
-                provider.availability.status === 'available' ? 'success' : 
-                provider.availability.status === 'limited' ? 'warning' : 'destructive'
-              }>
+              <Badge
+                variant={
+                  provider.availability.status === 'available'
+                    ? 'success'
+                    : provider.availability.status === 'limited'
+                      ? 'warning'
+                      : 'destructive'
+                }
+              >
                 {provider.availability.status}
               </Badge>
             </div>
@@ -225,9 +236,7 @@ const InfrastructureOverview = ({ projectId }: InfrastructureOverviewProps) => {
                 <h4 className="font-semibold text-foreground">{provider.name}</h4>
                 <p className="text-sm text-foreground-light">{provider.provider.toUpperCase()}</p>
               </div>
-              <Badge variant="outline">
-                {provider.type.toUpperCase()}
-              </Badge>
+              <Badge variant="outline">{provider.type.toUpperCase()}</Badge>
             </div>
 
             <div className="grid grid-cols-2 gap-4 mb-4">
@@ -272,8 +281,10 @@ const InfrastructureOverview = ({ projectId }: InfrastructureOverviewProps) => {
   const renderCostsTab = () => (
     <div className="space-y-6">
       <div className="bg-surface-100 border border-overlay rounded-lg p-6">
-        <h3 className="text-lg font-semibold text-foreground mb-4">Cost Optimization Recommendations</h3>
-        
+        <h3 className="text-lg font-semibold text-foreground mb-4">
+          Cost Optimization Recommendations
+        </h3>
+
         <div className="space-y-4">
           <div className="flex items-start space-x-3 p-4 bg-yellow-50 border border-yellow-200 rounded">
             <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />
@@ -312,7 +323,7 @@ const InfrastructureOverview = ({ projectId }: InfrastructureOverviewProps) => {
 
       <div className="bg-surface-100 border border-overlay rounded-lg p-6">
         <h3 className="text-lg font-semibold text-foreground mb-4">Cost Breakdown</h3>
-        
+
         <div className="space-y-3">
           <div className="flex justify-between items-center">
             <span className="text-foreground-light">Compute (Hetzner)</span>
@@ -355,7 +366,7 @@ const InfrastructureOverview = ({ projectId }: InfrastructureOverviewProps) => {
             { key: 'overview', label: 'Overview' },
             { key: 'compute', label: 'Compute' },
             { key: 'storage', label: 'Storage' },
-            { key: 'costs', label: 'Costs' }
+            { key: 'costs', label: 'Costs' },
           ].map((tab) => (
             <button
               key={tab.key}

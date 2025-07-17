@@ -6,75 +6,85 @@ import { COMPUTE_PROVIDERS, STORAGE_PROVIDERS } from '../../../lib/infrastructur
 const CostManagement = () => {
   const [timeRange, setTimeRange] = useState<'7d' | '30d' | '90d'>('30d')
 
-  const mockCostData = useMemo(() => ({
-    current: {
-      compute: 1247.50,
-      storage: 89.30,
-      bandwidth: 156.20,
-      total: 1493.00
-    },
-    projected: {
-      compute: 1580.00,
-      storage: 120.00,
-      bandwidth: 200.00,
-      total: 1900.00
-    },
-    savings: {
-      potential: 312.50,
-      recommendations: [
-        {
-          type: 'downsize',
-          resource: 'Hetzner CX51 Instance #3',
-          currentCost: 39.69,
-          projectedCost: 19.84,
-          savings: 19.85,
-          confidence: 0.85,
-          reason: 'Low CPU utilization (avg 15%)'
-        },
-        {
-          type: 'migrate',
-          resource: 'GPU Trader RTX 4090',
-          currentCost: 640.32,
-          projectedCost: 447.30,
-          savings: 193.02,
-          confidence: 0.92,
-          reason: 'Valdi.ai A100 offers better price/performance'
-        },
-        {
-          type: 'terminate',
-          resource: 'DigitalOcean Spaces #2',
-          currentCost: 60.00,
-          projectedCost: 0,
-          savings: 60.00,
-          confidence: 0.95,
-          reason: 'No access in 45 days'
-        }
-      ]
-    },
-    breakdown: [
-      { provider: 'Hetzner', cost: 318.52, percentage: 21.3, trend: 'down' },
-      { provider: 'Valdi.ai', cost: 447.30, percentage: 30.0, trend: 'up' },
-      { provider: 'GPU Trader', cost: 320.16, percentage: 21.4, trend: 'stable' },
-      { provider: 'Storj', cost: 89.30, percentage: 6.0, trend: 'up' },
-      { provider: 'bunny.net', cost: 156.20, percentage: 10.5, trend: 'down' },
-      { provider: 'Others', cost: 161.52, percentage: 10.8, trend: 'stable' }
-    ]
-  }), [])
+  const mockCostData = useMemo(
+    () => ({
+      current: {
+        compute: 1247.5,
+        storage: 89.3,
+        bandwidth: 156.2,
+        total: 1493.0,
+      },
+      projected: {
+        compute: 1580.0,
+        storage: 120.0,
+        bandwidth: 200.0,
+        total: 1900.0,
+      },
+      savings: {
+        potential: 312.5,
+        recommendations: [
+          {
+            type: 'downsize',
+            resource: 'Hetzner CX51 Instance #3',
+            currentCost: 39.69,
+            projectedCost: 19.84,
+            savings: 19.85,
+            confidence: 0.85,
+            reason: 'Low CPU utilization (avg 15%)',
+          },
+          {
+            type: 'migrate',
+            resource: 'GPU Trader RTX 4090',
+            currentCost: 640.32,
+            projectedCost: 447.3,
+            savings: 193.02,
+            confidence: 0.92,
+            reason: 'Valdi.ai A100 offers better price/performance',
+          },
+          {
+            type: 'terminate',
+            resource: 'DigitalOcean Spaces #2',
+            currentCost: 60.0,
+            projectedCost: 0,
+            savings: 60.0,
+            confidence: 0.95,
+            reason: 'No access in 45 days',
+          },
+        ],
+      },
+      breakdown: [
+        { provider: 'Hetzner', cost: 318.52, percentage: 21.3, trend: 'down' },
+        { provider: 'Valdi.ai', cost: 447.3, percentage: 30.0, trend: 'up' },
+        { provider: 'GPU Trader', cost: 320.16, percentage: 21.4, trend: 'stable' },
+        { provider: 'Storj', cost: 89.3, percentage: 6.0, trend: 'up' },
+        { provider: 'bunny.net', cost: 156.2, percentage: 10.5, trend: 'down' },
+        { provider: 'Others', cost: 161.52, percentage: 10.8, trend: 'stable' },
+      ],
+    }),
+    []
+  )
 
   const getTrendIcon = (trend: string) => {
     switch (trend) {
-      case 'up': return <TrendingUp className="w-4 h-4 text-red-500" />
-      case 'down': return <TrendingDown className="w-4 h-4 text-green-500" />
-      default: return <Target className="w-4 h-4 text-gray-500" />
+      case 'up':
+        return <TrendingUp className="w-4 h-4 text-red-500" />
+      case 'down':
+        return <TrendingDown className="w-4 h-4 text-green-500" />
+      default:
+        return <Target className="w-4 h-4 text-gray-500" />
     }
   }
 
   const getRecommendationIcon = (type: string) => {
     switch (type) {
-      case 'downsize': return <TrendingDown className="w-4 h-4 text-blue-500" />
-      case 'migrate': return <Target className="w-4 h-4 text-purple-500" />
-      case 'terminate': return <AlertTriangle className="w-4 h-4 text-red-500" />
-      default: return <DollarSign className="w-4 h-4 text-gray-500" />
+      case 'downsize':
+        return <TrendingDown className="w-4 h-4 text-blue-500" />
+      case 'migrate':
+        return <Target className="w-4 h-4 text-purple-500" />
+      case 'terminate':
+        return <AlertTriangle className="w-4 h-4 text-red-500" />
+      default:
+        return <DollarSign className="w-4 h-4 text-gray-500" />
     }
   }
 
@@ -101,7 +111,9 @@ const CostManagement = () => {
             <p className="text-sm font-medium text-foreground-light">Current Spend</p>
             <DollarSign className="w-4 h-4 text-green-600" />
           </div>
-          <p className="text-2xl font-bold text-foreground">${mockCostData.current.total.toFixed(2)}</p>
+          <p className="text-2xl font-bold text-foreground">
+            ${mockCostData.current.total.toFixed(2)}
+          </p>
           <p className="text-xs text-foreground-light">This month</p>
         </div>
 
@@ -110,7 +122,9 @@ const CostManagement = () => {
             <p className="text-sm font-medium text-foreground-light">Projected</p>
             <TrendingUp className="w-4 h-4 text-orange-600" />
           </div>
-          <p className="text-2xl font-bold text-foreground">${mockCostData.projected.total.toFixed(2)}</p>
+          <p className="text-2xl font-bold text-foreground">
+            ${mockCostData.projected.total.toFixed(2)}
+          </p>
           <p className="text-xs text-foreground-light">End of month</p>
         </div>
 
@@ -119,7 +133,9 @@ const CostManagement = () => {
             <p className="text-sm font-medium text-foreground-light">Potential Savings</p>
             <TrendingDown className="w-4 h-4 text-green-600" />
           </div>
-          <p className="text-2xl font-bold text-green-600">${mockCostData.savings.potential.toFixed(2)}</p>
+          <p className="text-2xl font-bold text-green-600">
+            ${mockCostData.savings.potential.toFixed(2)}
+          </p>
           <p className="text-xs text-foreground-light">Per month</p>
         </div>
 
@@ -153,7 +169,9 @@ const CostManagement = () => {
         </div>
 
         <div className="bg-surface-100 border border-overlay rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-foreground mb-4">Cost Optimization Recommendations</h3>
+          <h3 className="text-lg font-semibold text-foreground mb-4">
+            Cost Optimization Recommendations
+          </h3>
           <div className="space-y-4">
             {mockCostData.savings.recommendations.map((rec, index) => (
               <div key={index} className="border border-overlay rounded p-4">
@@ -165,9 +183,7 @@ const CostManagement = () => {
                     </Badge>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-bold text-green-600">
-                      ${rec.savings.toFixed(2)}/mo
-                    </p>
+                    <p className="text-sm font-bold text-green-600">${rec.savings.toFixed(2)}/mo</p>
                     <p className="text-xs text-foreground-light">
                       {Math.round(rec.confidence * 100)}% confidence
                     </p>

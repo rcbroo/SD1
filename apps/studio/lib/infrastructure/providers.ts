@@ -9,25 +9,25 @@ export const COMPUTE_PROVIDERS: ComputeProvider[] = [
     pricing: {
       hourly: 0.0595,
       monthly: 39.69,
-      currency: 'EUR'
+      currency: 'EUR',
     },
     specs: {
       cpu: {
         cores: 8,
         architecture: 'x86_64',
-        frequency: '3.4 GHz'
+        frequency: '3.4 GHz',
       },
       memory: '32 GB',
       storage: '240 GB SSD',
-      network: '20 TB'
+      network: '20 TB',
     },
     availability: {
       status: 'available',
       regions: ['eu-central', 'eu-west', 'us-east', 'us-west'],
-      autoScaling: true
+      autoScaling: true,
     },
     features: ['IPv6', 'Private Networks', 'Snapshots', 'Backups'],
-    provider: 'hetzner'
+    provider: 'hetzner',
   },
   {
     id: 'valdi-a100-80gb',
@@ -36,30 +36,30 @@ export const COMPUTE_PROVIDERS: ComputeProvider[] = [
     region: 'us-east',
     pricing: {
       hourly: 2.49,
-      currency: 'USD'
+      currency: 'USD',
     },
     specs: {
       cpu: {
         cores: 16,
-        architecture: 'x86_64'
+        architecture: 'x86_64',
       },
       gpu: {
         model: 'NVIDIA A100 80GB',
         memory: '80 GB HBM2e',
         cuda: true,
-        tensorCores: true
+        tensorCores: true,
       },
       memory: '128 GB',
       storage: '1 TB NVMe',
-      network: '100 Gbps'
+      network: '100 Gbps',
     },
     availability: {
       status: 'available',
       regions: ['us-east', 'us-west', 'eu-west'],
-      autoScaling: false
+      autoScaling: false,
     },
     features: ['CUDA', 'TensorRT', 'Multi-GPU', 'InfiniBand'],
-    provider: 'valdi'
+    provider: 'valdi',
   },
   {
     id: 'gpu-trader-rtx4090',
@@ -68,30 +68,30 @@ export const COMPUTE_PROVIDERS: ComputeProvider[] = [
     region: 'us-west',
     pricing: {
       hourly: 0.89,
-      currency: 'USD'
+      currency: 'USD',
     },
     specs: {
       cpu: {
         cores: 12,
-        architecture: 'x86_64'
+        architecture: 'x86_64',
       },
       gpu: {
         model: 'NVIDIA RTX 4090',
         memory: '24 GB GDDR6X',
         cuda: true,
-        tensorCores: true
+        tensorCores: true,
       },
       memory: '64 GB',
       storage: '500 GB NVMe',
-      network: '10 Gbps'
+      network: '10 Gbps',
     },
     availability: {
       status: 'limited',
       regions: ['us-west', 'us-east'],
-      autoScaling: false
+      autoScaling: false,
     },
     features: ['CUDA', 'RT Cores', 'DLSS 3', 'AV1 Encoding'],
-    provider: 'gpu-trader'
+    provider: 'gpu-trader',
   },
   {
     id: 'twcc-v100',
@@ -100,30 +100,30 @@ export const COMPUTE_PROVIDERS: ComputeProvider[] = [
     region: 'asia-pacific',
     pricing: {
       hourly: 1.25,
-      currency: 'USD'
+      currency: 'USD',
     },
     specs: {
       cpu: {
         cores: 8,
-        architecture: 'x86_64'
+        architecture: 'x86_64',
       },
       gpu: {
         model: 'NVIDIA Tesla V100',
         memory: '32 GB HBM2',
         cuda: true,
-        tensorCores: true
+        tensorCores: true,
       },
       memory: '64 GB',
       storage: '200 GB SSD',
-      network: '25 Gbps'
+      network: '25 Gbps',
     },
     availability: {
       status: 'available',
       regions: ['asia-pacific'],
-      autoScaling: true
+      autoScaling: true,
     },
     features: ['CUDA', 'TensorRT', 'NVLink', 'Academic Pricing'],
-    provider: 'twcc'
+    provider: 'twcc',
   },
   {
     id: 'do-c-32',
@@ -132,27 +132,27 @@ export const COMPUTE_PROVIDERS: ComputeProvider[] = [
     region: 'global',
     pricing: {
       hourly: 0.476,
-      monthly: 320.00,
-      currency: 'USD'
+      monthly: 320.0,
+      currency: 'USD',
     },
     specs: {
       cpu: {
         cores: 32,
         architecture: 'x86_64',
-        frequency: '2.4 GHz'
+        frequency: '2.4 GHz',
       },
       memory: '64 GB',
       storage: '200 GB SSD',
-      network: '9 TB'
+      network: '9 TB',
     },
     availability: {
       status: 'available',
       regions: ['us-east', 'us-west', 'eu-west', 'asia-pacific'],
-      autoScaling: true
+      autoScaling: true,
     },
     features: ['Load Balancers', 'VPC', 'Monitoring', 'Managed Databases'],
-    provider: 'digital-ocean'
-  }
+    provider: 'digital-ocean',
+  },
 ]
 
 export const STORAGE_PROVIDERS: StorageProvider[] = [
@@ -164,7 +164,7 @@ export const STORAGE_PROVIDERS: StorageProvider[] = [
       storage: 0.004, // $4/TB/month
       bandwidth: 0.007, // $7/TB
       requests: 0.0000007, // $0.0007/1000 requests
-      currency: 'USD'
+      currency: 'USD',
     },
     specs: {
       durability: '99.95%',
@@ -172,11 +172,11 @@ export const STORAGE_PROVIDERS: StorageProvider[] = [
       latency: '< 100ms',
       throughput: '10 Gbps',
       encryption: true,
-      versioning: true
+      versioning: true,
     },
     regions: ['global'],
     features: ['S3 Compatible', 'Zero-Knowledge', 'Decentralized', 'Edge Caching'],
-    provider: 'storj'
+    provider: 'storj',
   },
   {
     id: 'bunny-cdn',
@@ -186,7 +186,7 @@ export const STORAGE_PROVIDERS: StorageProvider[] = [
       storage: 0.01, // $10/TB/month
       bandwidth: 0.01, // $10/TB (varies by region)
       requests: 0.0005, // $0.5/1M requests
-      currency: 'USD'
+      currency: 'USD',
     },
     specs: {
       durability: '99.9%',
@@ -194,11 +194,11 @@ export const STORAGE_PROVIDERS: StorageProvider[] = [
       latency: '< 50ms',
       throughput: '100 Gbps',
       encryption: true,
-      versioning: false
+      versioning: false,
     },
     regions: ['global'],
     features: ['Global CDN', 'Image Optimization', 'Video Streaming', 'DDoS Protection'],
-    provider: 'bunny'
+    provider: 'bunny',
   },
   {
     id: 'backblaze-b2',
@@ -208,7 +208,7 @@ export const STORAGE_PROVIDERS: StorageProvider[] = [
       storage: 0.005, // $5/TB/month
       bandwidth: 0.01, // $10/TB (first 3x storage free)
       requests: 0.0004, // $0.4/10K requests
-      currency: 'USD'
+      currency: 'USD',
     },
     specs: {
       durability: '99.999999999%',
@@ -216,11 +216,11 @@ export const STORAGE_PROVIDERS: StorageProvider[] = [
       latency: '< 200ms',
       throughput: '1 Gbps',
       encryption: true,
-      versioning: true
+      versioning: true,
     },
     regions: ['us-west', 'eu-central'],
     features: ['Lifecycle Rules', 'Cross-Region Replication', 'Immutable Backups'],
-    provider: 'backblaze'
+    provider: 'backblaze',
   },
   {
     id: 'do-spaces',
@@ -230,7 +230,7 @@ export const STORAGE_PROVIDERS: StorageProvider[] = [
       storage: 0.02, // $20/TB/month
       bandwidth: 0.01, // $10/TB
       requests: 0.0005, // $0.5/1K requests
-      currency: 'USD'
+      currency: 'USD',
     },
     specs: {
       durability: '99.999999999%',
@@ -238,30 +238,28 @@ export const STORAGE_PROVIDERS: StorageProvider[] = [
       latency: '< 100ms',
       throughput: '5 Gbps',
       encryption: true,
-      versioning: true
+      versioning: true,
     },
     regions: ['us-east', 'us-west', 'eu-west', 'asia-pacific'],
     features: ['S3 Compatible', 'CDN Integration', 'CORS Support', 'Access Control'],
-    provider: 'digital-ocean'
-  }
+    provider: 'digital-ocean',
+  },
 ]
 
 export const getComputeProviderById = (id: string): ComputeProvider | undefined => {
-  return COMPUTE_PROVIDERS.find(provider => provider.id === id)
+  return COMPUTE_PROVIDERS.find((provider) => provider.id === id)
 }
 
 export const getStorageProviderById = (id: string): StorageProvider | undefined => {
-  return STORAGE_PROVIDERS.find(provider => provider.id === id)
+  return STORAGE_PROVIDERS.find((provider) => provider.id === id)
 }
 
 export const getProvidersByType = (type: 'cpu' | 'gpu' | 'hybrid') => {
-  return COMPUTE_PROVIDERS.filter(provider => provider.type === type)
+  return COMPUTE_PROVIDERS.filter((provider) => provider.type === type)
 }
 
 export const getProvidersByRegion = (region: string) => {
-  return COMPUTE_PROVIDERS.filter(provider => 
-    provider.availability.regions.includes(region)
-  )
+  return COMPUTE_PROVIDERS.filter((provider) => provider.availability.regions.includes(region))
 }
 
 export const getOptimalProvider = (requirements: {
@@ -271,28 +269,26 @@ export const getOptimalProvider = (requirements: {
   minCores?: number
   minMemory?: number
 }) => {
-  let candidates = COMPUTE_PROVIDERS.filter(provider => provider.type === requirements.type)
-  
+  let candidates = COMPUTE_PROVIDERS.filter((provider) => provider.type === requirements.type)
+
   if (requirements.region) {
-    candidates = candidates.filter(provider => 
+    candidates = candidates.filter((provider) =>
       provider.availability.regions.includes(requirements.region!)
     )
   }
-  
+
   if (requirements.maxCost) {
-    candidates = candidates.filter(provider => 
-      provider.pricing.hourly <= requirements.maxCost!
-    )
+    candidates = candidates.filter((provider) => provider.pricing.hourly <= requirements.maxCost!)
   }
-  
+
   if (requirements.minCores && requirements.minMemory) {
-    candidates = candidates.filter(provider => {
+    candidates = candidates.filter((provider) => {
       const cores = provider.specs.cpu?.cores || 0
       const memory = parseInt(provider.specs.memory.split(' ')[0])
       return cores >= requirements.minCores! && memory >= requirements.minMemory!
     })
   }
-  
+
   return candidates.sort((a, b) => {
     const aScore = (a.specs.cpu?.cores || 1) / a.pricing.hourly
     const bScore = (b.specs.cpu?.cores || 1) / b.pricing.hourly

@@ -1,7 +1,11 @@
 import React, { useState, useMemo } from 'react'
 import { Search, Server, Cpu, Zap, Plus } from 'lucide-react'
 import { Input, Button, Badge } from 'ui'
-import { COMPUTE_PROVIDERS, getProvidersByType, getOptimalProvider } from '../../../lib/infrastructure/providers'
+import {
+  COMPUTE_PROVIDERS,
+  getProvidersByType,
+  getOptimalProvider,
+} from '../../../lib/infrastructure/providers'
 import { ComputeProvider } from '../../../lib/infrastructure/types'
 
 const ComputeProviders = () => {
@@ -14,15 +18,18 @@ const ComputeProviders = () => {
     let providers = selectedType === 'all' ? COMPUTE_PROVIDERS : getProvidersByType(selectedType)
 
     if (searchQuery) {
-      providers = providers.filter(provider =>
-        provider.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        provider.provider.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        provider.features.some(feature => feature.toLowerCase().includes(searchQuery.toLowerCase()))
+      providers = providers.filter(
+        (provider) =>
+          provider.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          provider.provider.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          provider.features.some((feature) =>
+            feature.toLowerCase().includes(searchQuery.toLowerCase())
+          )
       )
     }
 
     if (selectedRegion !== 'all') {
-      providers = providers.filter(provider =>
+      providers = providers.filter((provider) =>
         provider.availability.regions.includes(selectedRegion)
       )
     }
@@ -43,8 +50,8 @@ const ComputeProviders = () => {
 
   const regions = useMemo(() => {
     const allRegions = new Set<string>()
-    COMPUTE_PROVIDERS.forEach(provider => {
-      provider.availability.regions.forEach(region => allRegions.add(region))
+    COMPUTE_PROVIDERS.forEach((provider) => {
+      provider.availability.regions.forEach((region) => allRegions.add(region))
     })
     return Array.from(allRegions).sort()
   }, [])
@@ -69,10 +76,15 @@ const ComputeProviders = () => {
           <Badge variant={provider.type === 'gpu' ? 'brand' : 'secondary'}>
             {provider.type.toUpperCase()}
           </Badge>
-          <Badge variant={
-            provider.availability.status === 'available' ? 'success' : 
-            provider.availability.status === 'limited' ? 'warning' : 'destructive'
-          }>
+          <Badge
+            variant={
+              provider.availability.status === 'available'
+                ? 'success'
+                : provider.availability.status === 'limited'
+                  ? 'warning'
+                  : 'destructive'
+            }
+          >
             {provider.availability.status}
           </Badge>
         </div>
@@ -143,13 +155,9 @@ const ComputeProviders = () => {
 
       <div className="flex items-center justify-between pt-4 border-t border-overlay">
         <div>
-          <p className="text-lg font-bold text-foreground">
-            ${provider.pricing.hourly}/hr
-          </p>
+          <p className="text-lg font-bold text-foreground">${provider.pricing.hourly}/hr</p>
           {provider.pricing.monthly && (
-            <p className="text-sm text-foreground-light">
-              ${provider.pricing.monthly}/mo
-            </p>
+            <p className="text-sm text-foreground-light">${provider.pricing.monthly}/mo</p>
           )}
         </div>
         <Button type="primary" size="small">
@@ -219,13 +227,17 @@ const ComputeProviders = () => {
           <div className="text-center">
             <p className="text-sm font-medium">GPU Providers</p>
             <p className="text-2xl font-bold text-purple-600">
-              {filteredProviders.filter(p => p.type === 'gpu').length}
+              {filteredProviders.filter((p) => p.type === 'gpu').length}
             </p>
           </div>
           <div className="text-center">
             <p className="text-sm font-medium">Avg. Cost/Hour</p>
             <p className="text-2xl font-bold text-green-600">
-              ${(filteredProviders.reduce((sum, p) => sum + p.pricing.hourly, 0) / filteredProviders.length || 0).toFixed(2)}
+              $
+              {(
+                filteredProviders.reduce((sum, p) => sum + p.pricing.hourly, 0) /
+                  filteredProviders.length || 0
+              ).toFixed(2)}
             </p>
           </div>
         </div>
@@ -238,7 +250,9 @@ const ComputeProviders = () => {
       {filteredProviders.length === 0 && (
         <div className="text-center py-12">
           <Server className="w-12 h-12 text-foreground-light mx-auto mb-4" />
-          <p className="text-foreground-light">No compute providers found matching your criteria.</p>
+          <p className="text-foreground-light">
+            No compute providers found matching your criteria.
+          </p>
           <Button type="outline" size="small" className="mt-4">
             Clear Filters
           </Button>

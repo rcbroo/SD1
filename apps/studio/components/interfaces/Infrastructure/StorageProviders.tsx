@@ -6,17 +6,25 @@ import { StorageProvider } from '../../../lib/infrastructure/types'
 
 const StorageProviders = () => {
   const [searchQuery, setSearchQuery] = useState('')
-  const [selectedType, setSelectedType] = useState<'all' | 'primary' | 'cdn' | 'backup' | 'cache'>('all')
+  const [selectedType, setSelectedType] = useState<'all' | 'primary' | 'cdn' | 'backup' | 'cache'>(
+    'all'
+  )
   const [sortBy, setSortBy] = useState<'cost' | 'performance' | 'durability'>('cost')
 
   const filteredProviders = useMemo(() => {
-    let providers = selectedType === 'all' ? STORAGE_PROVIDERS : STORAGE_PROVIDERS.filter(p => p.type === selectedType)
+    let providers =
+      selectedType === 'all'
+        ? STORAGE_PROVIDERS
+        : STORAGE_PROVIDERS.filter((p) => p.type === selectedType)
 
     if (searchQuery) {
-      providers = providers.filter(provider =>
-        provider.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        provider.provider.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        provider.features.some(feature => feature.toLowerCase().includes(searchQuery.toLowerCase()))
+      providers = providers.filter(
+        (provider) =>
+          provider.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          provider.provider.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          provider.features.some((feature) =>
+            feature.toLowerCase().includes(searchQuery.toLowerCase())
+          )
       )
     }
 
@@ -52,9 +60,7 @@ const StorageProviders = () => {
             <p className="text-sm text-foreground-light">{provider.provider.toUpperCase()}</p>
           </div>
         </div>
-        <Badge variant="outline">
-          {provider.type.toUpperCase()}
-        </Badge>
+        <Badge variant="outline">{provider.type.toUpperCase()}</Badge>
       </div>
 
       <div className="grid grid-cols-2 gap-4 mb-4">
@@ -126,9 +132,7 @@ const StorageProviders = () => {
       <div className="flex items-center justify-between pt-4 border-t border-overlay">
         <div>
           <p className="text-sm text-foreground-light">Starting at</p>
-          <p className="text-lg font-bold text-foreground">
-            ${provider.pricing.storage}/GB
-          </p>
+          <p className="text-lg font-bold text-foreground">${provider.pricing.storage}/GB</p>
         </div>
         <Button type="primary" size="small">
           Configure
@@ -186,19 +190,23 @@ const StorageProviders = () => {
           <div className="text-center">
             <p className="text-sm font-medium">CDN Providers</p>
             <p className="text-2xl font-bold text-purple-600">
-              {filteredProviders.filter(p => p.type === 'cdn').length}
+              {filteredProviders.filter((p) => p.type === 'cdn').length}
             </p>
           </div>
           <div className="text-center">
             <p className="text-sm font-medium">Backup Solutions</p>
             <p className="text-2xl font-bold text-green-600">
-              {filteredProviders.filter(p => p.type === 'backup').length}
+              {filteredProviders.filter((p) => p.type === 'backup').length}
             </p>
           </div>
           <div className="text-center">
             <p className="text-sm font-medium">Avg. Storage Cost</p>
             <p className="text-2xl font-bold text-orange-600">
-              ${(filteredProviders.reduce((sum, p) => sum + p.pricing.storage, 0) / filteredProviders.length || 0).toFixed(3)}
+              $
+              {(
+                filteredProviders.reduce((sum, p) => sum + p.pricing.storage, 0) /
+                  filteredProviders.length || 0
+              ).toFixed(3)}
             </p>
           </div>
         </div>
@@ -211,7 +219,9 @@ const StorageProviders = () => {
       {filteredProviders.length === 0 && (
         <div className="text-center py-12">
           <Database className="w-12 h-12 text-foreground-light mx-auto mb-4" />
-          <p className="text-foreground-light">No storage providers found matching your criteria.</p>
+          <p className="text-foreground-light">
+            No storage providers found matching your criteria.
+          </p>
           <Button type="outline" size="small" className="mt-4">
             Clear Filters
           </Button>
