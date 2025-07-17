@@ -18,6 +18,7 @@ import { QuerySearchParamsType } from 'components/interfaces/UnifiedLogs/Unified
 import { createSupabaseMCPClient } from 'lib/ai/supabase-mcp'
 import { filterToolsByOptInLevel, toolSetValidationSchema } from 'lib/ai/tool-filter'
 import { getTools } from './tools'
+import { createOwlClient, getOwlConfig, isOwlEnabled } from 'lib/owl'
 
 export const maxDuration = 120
 
