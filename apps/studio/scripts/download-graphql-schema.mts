@@ -17,7 +17,7 @@ async function downloadGraphQLSchema() {
 
   try {
     const response = await fetch(schemaEndpoint, {
-	  method: 'POST',
+      method: 'POST',
       body: JSON.stringify({
         query: schemaQuery.trim(),
       }),
