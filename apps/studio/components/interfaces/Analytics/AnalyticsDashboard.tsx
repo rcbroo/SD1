@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Card, Button, Badge, Tabs } from 'ui'
+import { Card, Button, Badge, Tabs_Shadcn_, TabsList_Shadcn_, TabsTrigger_Shadcn_, TabsContent_Shadcn_ } from 'ui'
 import { TrendingUp, TrendingDown, AlertTriangle, CheckCircle, BarChart3, Network, Users } from 'lucide-react'
 import { contentDecayAnalyzer } from 'lib/analytics/decay'
 import { agentSynergyAnalyzer } from 'lib/analytics/synergy'
@@ -86,23 +86,27 @@ const AnalyticsDashboard = () => {
         </Button>
       </div>
 
-      <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <Tabs.List>
-          <Tabs.Trigger value="overview" icon={<BarChart3 className="w-4 h-4" />}>
+      <Tabs_Shadcn_ value={activeTab} onValueChange={setActiveTab}>
+        <TabsList_Shadcn_ className="grid w-full grid-cols-4">
+          <TabsTrigger_Shadcn_ value="overview" className="flex items-center gap-2">
+            <BarChart3 className="w-4 h-4" />
             Overview
-          </Tabs.Trigger>
-          <Tabs.Trigger value="decay" icon={<TrendingDown className="w-4 h-4" />}>
+          </TabsTrigger_Shadcn_>
+          <TabsTrigger_Shadcn_ value="decay" className="flex items-center gap-2">
+            <TrendingDown className="w-4 h-4" />
             Content Decay
-          </Tabs.Trigger>
-          <Tabs.Trigger value="synergy" icon={<Users className="w-4 h-4" />}>
+          </TabsTrigger_Shadcn_>
+          <TabsTrigger_Shadcn_ value="synergy" className="flex items-center gap-2">
+            <Users className="w-4 h-4" />
             Agent Synergy
-          </Tabs.Trigger>
-          <Tabs.Trigger value="network" icon={<Network className="w-4 h-4" />}>
+          </TabsTrigger_Shadcn_>
+          <TabsTrigger_Shadcn_ value="network" className="flex items-center gap-2">
+            <Network className="w-4 h-4" />
             Network Analysis
-          </Tabs.Trigger>
-        </Tabs.List>
+          </TabsTrigger_Shadcn_>
+        </TabsList_Shadcn_>
 
-        <Tabs.Content value="overview">
+        <TabsContent_Shadcn_ value="overview">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <Card className="p-4">
               <div className="flex items-center justify-between">
@@ -192,9 +196,9 @@ const AnalyticsDashboard = () => {
               </div>
             </Card>
           </div>
-        </Tabs.Content>
+        </TabsContent_Shadcn_>
 
-        <Tabs.Content value="decay">
+        <TabsContent_Shadcn_ value="decay">
           <Card className="p-6">
             <h3 className="text-lg font-semibold mb-4">Content Decay Analysis</h3>
             <div className="space-y-4">
@@ -240,9 +244,9 @@ const AnalyticsDashboard = () => {
               ))}
             </div>
           </Card>
-        </Tabs.Content>
+        </TabsContent_Shadcn_>
 
-        <Tabs.Content value="synergy">
+        <TabsContent_Shadcn_ value="synergy">
           <Card className="p-6">
             <h3 className="text-lg font-semibold mb-4">Agent Synergy Analysis</h3>
             <div className="space-y-4">
@@ -291,9 +295,9 @@ const AnalyticsDashboard = () => {
               ))}
             </div>
           </Card>
-        </Tabs.Content>
+        </TabsContent_Shadcn_>
 
-        <Tabs.Content value="network">
+        <TabsContent_Shadcn_ value="network">
           <Card className="p-6">
             <h3 className="text-lg font-semibold mb-4">Network Analysis</h3>
             {networkAnalysis && (
@@ -370,8 +374,8 @@ const AnalyticsDashboard = () => {
               </div>
             )}
           </Card>
-        </Tabs.Content>
-      </Tabs>
+        </TabsContent_Shadcn_>
+      </Tabs_Shadcn_>
     </div>
   )
 }
