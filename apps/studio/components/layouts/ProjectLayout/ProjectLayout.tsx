@@ -169,7 +169,7 @@ const ProjectLayout = forwardRef<HTMLDivElement, PropsWithChildren<ProjectLayout
                 className={cn(
                   'block',
                   'transition-all duration-[120ms]',
-                  showSidebar
+                  false
                     ? resizableSidebar
                       ? 'min-w-64 max-w-[32rem]'
                       : 'min-w-64 max-w-64'
