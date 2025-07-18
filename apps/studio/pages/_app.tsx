@@ -120,7 +120,7 @@ function CustomApp({ Component, pageProps }: AppPropsWithLayout) {
                   <TooltipProvider delayDuration={0}>
                     <RouteValidationWrapper>
                       <ThemeProvider
-                        defaultTheme="system"
+                        defaultTheme="dark"
                         themes={['dark', 'light', 'classic-dark']}
                         enableSystem
                         disableTransitionOnChange
