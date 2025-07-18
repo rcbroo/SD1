@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, Input } from 'ui'
+import { Button, Input, cn } from 'ui'
 import { Search, Plus, Edit, Trash2, Eye, Filter, MoreHorizontal, ArrowUpDown, FileText, Grid, List } from 'lucide-react'
 import { CMSContent } from './types'
 
@@ -90,15 +90,15 @@ export const CollectionsView = ({ collectionType, onCreateNew, onEdit }: Collect
   return (
     <div className="flex flex-col h-full bg-background">
       <div className="border-b border-border-overlay bg-surface-100">
-        <div className="p-4">
-          <div className="flex items-center justify-between mb-4">
+        <div className="p-6">
+          <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="text-xl font-semibold text-foreground capitalize">{collectionType}</h1>
-              <p className="text-sm text-foreground-muted mt-1">
+              <h1 className="text-2xl font-semibold text-foreground capitalize">{collectionType}</h1>
+              <p className="text-sm text-foreground-muted mt-2">
                 Manage your {collectionType} content
               </p>
             </div>
-            <Button onClick={onCreateNew} className="bg-brand-600 hover:bg-brand-700">
+            <Button onClick={onCreateNew} className="bg-brand-600 hover:bg-brand-700 px-4 py-2">
               <Plus className="w-4 h-4 mr-2" />
               Create New
             </Button>
@@ -111,15 +111,21 @@ export const CollectionsView = ({ collectionType, onCreateNew, onEdit }: Collect
                 placeholder={`Search ${collectionType}...`}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
+                className="pl-10 bg-background border-border-overlay"
               />
             </div>
-            <div className="flex items-center gap-2">
-              <div className="flex items-center border border-border-overlay rounded-md">
+            <div className="flex items-center gap-3">
+              <div className="flex items-center bg-surface-200 rounded-lg p-1">
                 <Button
                   type={viewMode === 'grid' ? 'default' : 'text'}
                   size="tiny"
                   onClick={() => setViewMode('grid')}
+                  className={cn(
+                    "px-3 py-2 rounded-md transition-all",
+                    viewMode === 'grid' 
+                      ? 'bg-background shadow-sm text-foreground' 
+                      : 'text-foreground-muted hover:text-foreground'
+                  )}
                 >
                   <Grid className="w-4 h-4" />
                 </Button>
@@ -127,11 +133,17 @@ export const CollectionsView = ({ collectionType, onCreateNew, onEdit }: Collect
                   type={viewMode === 'list' ? 'default' : 'text'}
                   size="tiny"
                   onClick={() => setViewMode('list')}
+                  className={cn(
+                    "px-3 py-2 rounded-md transition-all",
+                    viewMode === 'list' 
+                      ? 'bg-background shadow-sm text-foreground' 
+                      : 'text-foreground-muted hover:text-foreground'
+                  )}
                 >
                   <List className="w-4 h-4" />
                 </Button>
               </div>
-              <Button type="outline" size="small">
+              <Button type="outline" size="small" className="border-border-overlay">
                 <Filter className="w-4 h-4 mr-2" />
                 Filter
               </Button>
@@ -163,47 +175,51 @@ export const CollectionsView = ({ collectionType, onCreateNew, onEdit }: Collect
         )}
 
         {viewMode === 'grid' ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 p-6">
             {mockData.map((item) => (
               <div
                 key={item.id}
-                className={`group relative border border-border-overlay rounded-lg overflow-hidden hover:border-brand-400 transition-colors cursor-pointer ${
-                  selectedItems.includes(item.id) ? 'ring-2 ring-brand-400' : ''
-                }`}
+                className={cn(
+                  "group relative bg-surface-100 border border-border-overlay rounded-xl overflow-hidden hover:border-brand-400 hover:shadow-lg transition-all duration-200 cursor-pointer",
+                  selectedItems.includes(item.id) ? 'ring-2 ring-brand-400 border-brand-400' : ''
+                )}
                 onClick={() => onEdit(item)}
               >
-                <div className="aspect-[4/3] bg-surface-200 flex items-center justify-center">
-                  <FileText className="w-8 h-8 text-foreground-muted" />
+                <div className="aspect-[4/3] bg-surface-200 flex items-center justify-center relative">
+                  <div className="w-full h-full bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center">
+                    <FileText className="w-8 h-8 text-slate-400" />
+                  </div>
+                  <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Button type="text" size="tiny" className="bg-background/80 backdrop-blur-sm hover:bg-background">
+                      <MoreHorizontal className="w-3 h-3" />
+                    </Button>
+                  </div>
+                  <div className="absolute top-3 left-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <input
+                      type="checkbox"
+                      checked={selectedItems.includes(item.id)}
+                      onChange={() => handleSelectItem(item.id)}
+                      className="rounded border-border-overlay bg-background/80 backdrop-blur-sm"
+                      onClick={(e) => e.stopPropagation()}
+                    />
+                  </div>
                 </div>
-                <div className="p-3">
-                  <div className="font-medium text-foreground text-sm truncate">{item.title}</div>
-                  <div className="text-xs text-foreground-muted mt-1">
+                <div className="p-4">
+                  <div className="font-semibold text-foreground text-sm truncate mb-2">{item.title}</div>
+                  <div className="text-xs text-foreground-muted mb-3">
                     {new Date(item.updated_at).toLocaleDateString('en-US', {
                       month: 'short',
-                      day: 'numeric'
+                      day: 'numeric',
+                      year: 'numeric'
                     })}
                   </div>
-                  <div className="mt-2">
+                  <div>
                     <span
-                      className={`inline-flex px-2 py-1 text-xs font-medium rounded-full border ${getStatusBadge(item.status)}`}
+                      className={`inline-flex px-3 py-1 text-xs font-medium rounded-full border ${getStatusBadge(item.status)}`}
                     >
                       {item.status}
                     </span>
                   </div>
-                </div>
-                <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Button type="text" size="tiny">
-                    <MoreHorizontal className="w-3 h-3" />
-                  </Button>
-                </div>
-                <div className="absolute top-2 left-2">
-                  <input
-                    type="checkbox"
-                    checked={selectedItems.includes(item.id)}
-                    onChange={() => handleSelectItem(item.id)}
-                    className="rounded border-border-overlay"
-                    onClick={(e) => e.stopPropagation()}
-                  />
                 </div>
               </div>
             ))}

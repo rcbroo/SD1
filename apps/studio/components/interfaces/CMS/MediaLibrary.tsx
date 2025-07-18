@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, Input } from 'ui'
+import { Button, Input, cn } from 'ui'
 import { Upload, Search, Filter, Grid, List, Image, Video, FileText, Download, Trash2, FolderOpen, Plus, MoreHorizontal } from 'lucide-react'
 
 interface MediaItem {
@@ -213,20 +213,26 @@ export const MediaLibrary = ({ media, onUpload, onDelete }: MediaLibraryProps) =
 
       <div className="flex-1 flex flex-col">
         <div className="border-b border-border-overlay bg-surface-100">
-          <div className="p-4">
-            <div className="flex items-center justify-between mb-4">
+          <div className="p-6">
+            <div className="flex items-center justify-between mb-6">
               <div>
-                <h1 className="text-xl font-semibold text-foreground">Media Library</h1>
-                <p className="text-sm text-foreground-muted mt-1">
+                <h1 className="text-2xl font-semibold text-foreground">Media Library</h1>
+                <p className="text-sm text-foreground-muted mt-2">
                   Manage your digital assets and media files
                 </p>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="flex items-center border border-border-overlay rounded-md">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center bg-surface-200 rounded-lg p-1">
                   <Button
                     type={viewMode === 'grid' ? 'default' : 'text'}
                     size="tiny"
                     onClick={() => setViewMode('grid')}
+                    className={cn(
+                      "px-3 py-2 rounded-md transition-all",
+                      viewMode === 'grid' 
+                        ? 'bg-background shadow-sm text-foreground' 
+                        : 'text-foreground-muted hover:text-foreground'
+                    )}
                   >
                     <Grid className="w-4 h-4" />
                   </Button>
@@ -234,6 +240,12 @@ export const MediaLibrary = ({ media, onUpload, onDelete }: MediaLibraryProps) =
                     type={viewMode === 'list' ? 'default' : 'text'}
                     size="tiny"
                     onClick={() => setViewMode('list')}
+                    className={cn(
+                      "px-3 py-2 rounded-md transition-all",
+                      viewMode === 'list' 
+                        ? 'bg-background shadow-sm text-foreground' 
+                        : 'text-foreground-muted hover:text-foreground'
+                    )}
                   >
                     <List className="w-4 h-4" />
                   </Button>
@@ -246,7 +258,7 @@ export const MediaLibrary = ({ media, onUpload, onDelete }: MediaLibraryProps) =
                     className="hidden"
                     accept="image/*,video/*,.pdf,.doc,.docx"
                   />
-                  <Button className="bg-brand-600 hover:bg-brand-700">
+                  <Button className="bg-brand-600 hover:bg-brand-700 px-4 py-2">
                     <Upload className="w-4 h-4 mr-2" />
                     Upload
                   </Button>
@@ -292,45 +304,46 @@ export const MediaLibrary = ({ media, onUpload, onDelete }: MediaLibraryProps) =
           </div>
         )}
 
-        <div className="flex-1 overflow-auto p-4">
+        <div className="flex-1 overflow-auto p-6">
           {viewMode === 'grid' ? (
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
               {filteredMedia.map((item) => (
                 <div
                   key={item.id}
-                  className={`group relative border border-border-overlay rounded-lg overflow-hidden hover:border-brand-400 transition-colors cursor-pointer ${
-                    selectedItems.includes(item.id) ? 'ring-2 ring-brand-400' : ''
-                  }`}
+                  className={cn(
+                    "group relative bg-surface-100 border border-border-overlay rounded-xl overflow-hidden hover:border-brand-400 hover:shadow-lg transition-all duration-200 cursor-pointer",
+                    selectedItems.includes(item.id) ? 'ring-2 ring-brand-400 border-brand-400' : ''
+                  )}
                   onClick={() => handleSelectItem(item.id)}
                 >
-                  <div className="aspect-square bg-surface-200 flex items-center justify-center">
+                  <div className="aspect-square bg-surface-200 flex items-center justify-center relative">
                     {item.type === 'image' ? (
-                      <div className="w-full h-full bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center">
-                        <Image className="w-8 h-8 text-foreground-muted" />
+                      <div className="w-full h-full bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center">
+                        <Image className="w-8 h-8 text-slate-400" />
                       </div>
                     ) : (
                       <div className="w-full h-full bg-surface-200 flex items-center justify-center">
                         {getFileIcon(item.type)}
                       </div>
                     )}
+                    <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Button type="text" size="tiny" className="bg-background/80 backdrop-blur-sm hover:bg-background">
+                        <MoreHorizontal className="w-3 h-3" />
+                      </Button>
+                    </div>
+                    <div className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <input
+                        type="checkbox"
+                        checked={selectedItems.includes(item.id)}
+                        onChange={() => handleSelectItem(item.id)}
+                        className="rounded border-border-overlay bg-background/80 backdrop-blur-sm"
+                        onClick={(e) => e.stopPropagation()}
+                      />
+                    </div>
                   </div>
-                  <div className="p-2">
-                    <div className="text-xs font-medium text-foreground truncate">{item.name}</div>
-                    <div className="text-xs text-foreground-muted">{formatFileSize(item.size)}</div>
-                  </div>
-                  <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Button type="text" size="tiny">
-                      <MoreHorizontal className="w-3 h-3" />
-                    </Button>
-                  </div>
-                  <div className="absolute top-2 left-2">
-                    <input
-                      type="checkbox"
-                      checked={selectedItems.includes(item.id)}
-                      onChange={() => handleSelectItem(item.id)}
-                      className="rounded border-border-overlay"
-                      onClick={(e) => e.stopPropagation()}
-                    />
+                  <div className="p-3">
+                    <div className="text-sm font-medium text-foreground truncate">{item.name}</div>
+                    <div className="text-xs text-foreground-muted mt-1">{formatFileSize(item.size)}</div>
                   </div>
                 </div>
               ))}
