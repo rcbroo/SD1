@@ -122,8 +122,10 @@ function CustomApp({ Component, pageProps }: AppPropsWithLayout) {
                       <ThemeProvider
                         defaultTheme="dark"
                         themes={['dark', 'light', 'classic-dark']}
-                        enableSystem
+                        enableSystem={false}
                         disableTransitionOnChange
+                        forcedTheme="dark"
+                        storageKey="supabase-theme"
                       >
                         <AppBannerContextProvider>
                           <CommandProvider>

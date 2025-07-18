@@ -164,16 +164,12 @@ const ProjectLayout = forwardRef<HTMLDivElement, PropsWithChildren<ProjectLayout
               <ResizablePanel
                 order={1}
                 maxSize={33}
-                defaultSize={20}
+                defaultSize={4}
                 id="panel-left"
                 className={cn(
                   'block',
                   'transition-all duration-[120ms]',
-                  false
-                    ? resizableSidebar
-                      ? 'min-w-64 max-w-[32rem]'
-                      : 'min-w-64 max-w-64'
-                    : 'min-w-16 max-w-16'
+                  'min-w-16 max-w-16'
                 )}
               >
                 <MenuBarWrapper
