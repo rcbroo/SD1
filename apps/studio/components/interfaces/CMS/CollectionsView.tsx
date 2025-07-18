@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Button, Input } from 'ui'
-import { Search, Plus, Edit, Trash2, Eye, Filter, MoreHorizontal, ArrowUpDown } from 'lucide-react'
+import { Search, Plus, Edit, Trash2, Eye, Filter, MoreHorizontal, ArrowUpDown, FileText, Grid, List } from 'lucide-react'
 import { CMSContent } from './types'
 
 interface CollectionsViewProps {
@@ -14,6 +14,7 @@ export const CollectionsView = ({ collectionType, onCreateNew, onEdit }: Collect
   const [selectedItems, setSelectedItems] = useState<string[]>([])
   const [sortField, setSortField] = useState<string>('updated_at')
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc')
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('list')
 
   const mockData: CMSContent[] = [
     {
@@ -24,6 +25,7 @@ export const CollectionsView = ({ collectionType, onCreateNew, onEdit }: Collect
       excerpt: 'A comprehensive guide to getting started with Supabase',
       status: 'published',
       type: 'post',
+      author_id: 'user-1',
       created_at: '2024-01-15T10:00:00Z',
       updated_at: '2024-01-20T14:30:00Z',
       tags: ['tutorial', 'beginner'],
@@ -40,6 +42,7 @@ export const CollectionsView = ({ collectionType, onCreateNew, onEdit }: Collect
       excerpt: 'Deep dive into advanced PostgreSQL features',
       status: 'draft',
       type: 'post',
+      author_id: 'user-1',
       created_at: '2024-01-18T09:15:00Z',
       updated_at: '2024-01-22T16:45:00Z',
       tags: ['advanced', 'database'],
@@ -111,10 +114,28 @@ export const CollectionsView = ({ collectionType, onCreateNew, onEdit }: Collect
                 className="pl-10"
               />
             </div>
-            <Button type="outline" size="small">
-              <Filter className="w-4 h-4 mr-2" />
-              Filter
-            </Button>
+            <div className="flex items-center gap-2">
+              <div className="flex items-center border border-border-overlay rounded-md">
+                <Button
+                  type={viewMode === 'grid' ? 'default' : 'text'}
+                  size="tiny"
+                  onClick={() => setViewMode('grid')}
+                >
+                  <Grid className="w-4 h-4" />
+                </Button>
+                <Button
+                  type={viewMode === 'list' ? 'default' : 'text'}
+                  size="tiny"
+                  onClick={() => setViewMode('list')}
+                >
+                  <List className="w-4 h-4" />
+                </Button>
+              </div>
+              <Button type="outline" size="small">
+                <Filter className="w-4 h-4 mr-2" />
+                Filter
+              </Button>
+            </div>
           </div>
         </div>
       </div>
@@ -141,117 +162,165 @@ export const CollectionsView = ({ collectionType, onCreateNew, onEdit }: Collect
           </div>
         )}
 
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-surface-200 border-b border-border-overlay">
-              <tr>
-                <th className="w-12 p-3 text-left">
-                  <input
-                    type="checkbox"
-                    checked={selectedItems.length === mockData.length}
-                    onChange={handleSelectAll}
-                    className="rounded border-border-overlay"
-                  />
-                </th>
-                <th className="p-3 text-left">
-                  <button
-                    onClick={() => handleSort('title')}
-                    className="flex items-center text-xs font-medium text-foreground-muted uppercase tracking-wider hover:text-foreground"
-                  >
-                    Title
-                    <ArrowUpDown className="w-3 h-3 ml-1" />
-                  </button>
-                </th>
-                <th className="p-3 text-left">
-                  <button
-                    onClick={() => handleSort('status')}
-                    className="flex items-center text-xs font-medium text-foreground-muted uppercase tracking-wider hover:text-foreground"
-                  >
-                    Status
-                    <ArrowUpDown className="w-3 h-3 ml-1" />
-                  </button>
-                </th>
-                <th className="p-3 text-left">
-                  <button
-                    onClick={() => handleSort('updated_at')}
-                    className="flex items-center text-xs font-medium text-foreground-muted uppercase tracking-wider hover:text-foreground"
-                  >
-                    Last Modified
-                    <ArrowUpDown className="w-3 h-3 ml-1" />
-                  </button>
-                </th>
-                <th className="w-24 p-3 text-left">
-                  <span className="text-xs font-medium text-foreground-muted uppercase tracking-wider">
-                    Actions
-                  </span>
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border-overlay">
-              {mockData.map((item) => (
-                <tr
-                  key={item.id}
-                  className="hover:bg-surface-100 transition-colors cursor-pointer"
-                  onClick={() => onEdit(item)}
-                >
-                  <td className="p-3">
-                    <input
-                      type="checkbox"
-                      checked={selectedItems.includes(item.id)}
-                      onChange={() => handleSelectItem(item.id)}
-                      onClick={(e) => e.stopPropagation()}
-                      className="rounded border-border-overlay"
-                    />
-                  </td>
-                  <td className="p-3">
-                    <div>
-                      <div className="font-medium text-foreground">{item.title}</div>
-                      {item.excerpt && (
-                        <div className="text-sm text-foreground-muted mt-1 truncate max-w-md">
-                          {item.excerpt}
-                        </div>
-                      )}
-                    </div>
-                  </td>
-                  <td className="p-3">
+        {viewMode === 'grid' ? (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4">
+            {mockData.map((item) => (
+              <div
+                key={item.id}
+                className={`group relative border border-border-overlay rounded-lg overflow-hidden hover:border-brand-400 transition-colors cursor-pointer ${
+                  selectedItems.includes(item.id) ? 'ring-2 ring-brand-400' : ''
+                }`}
+                onClick={() => onEdit(item)}
+              >
+                <div className="aspect-[4/3] bg-surface-200 flex items-center justify-center">
+                  <FileText className="w-8 h-8 text-foreground-muted" />
+                </div>
+                <div className="p-3">
+                  <div className="font-medium text-foreground text-sm truncate">{item.title}</div>
+                  <div className="text-xs text-foreground-muted mt-1">
+                    {new Date(item.updated_at).toLocaleDateString('en-US', {
+                      month: 'short',
+                      day: 'numeric'
+                    })}
+                  </div>
+                  <div className="mt-2">
                     <span
                       className={`inline-flex px-2 py-1 text-xs font-medium rounded-full border ${getStatusBadge(item.status)}`}
                     >
                       {item.status}
                     </span>
-                  </td>
-                  <td className="p-3 text-sm text-foreground-muted">
-                    {new Date(item.updated_at).toLocaleDateString('en-US', {
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric'
-                    })}
-                  </td>
-                  <td className="p-3">
-                    <div className="flex items-center gap-1">
-                      <Button
-                        type="text"
-                        size="tiny"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          onEdit(item)
-                        }}
-                      >
-                        <Edit className="w-3 h-3" />
-                      </Button>
-                      <Button type="text" size="tiny">
-                        <Eye className="w-3 h-3" />
-                      </Button>
-                      <Button type="text" size="tiny">
-                        <MoreHorizontal className="w-3 h-3" />
-                      </Button>
-                    </div>
-                  </td>
+                  </div>
+                </div>
+                <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <Button type="text" size="tiny">
+                    <MoreHorizontal className="w-3 h-3" />
+                  </Button>
+                </div>
+                <div className="absolute top-2 left-2">
+                  <input
+                    type="checkbox"
+                    checked={selectedItems.includes(item.id)}
+                    onChange={() => handleSelectItem(item.id)}
+                    className="rounded border-border-overlay"
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-surface-200 border-b border-border-overlay">
+                <tr>
+                  <th className="w-12 p-3 text-left">
+                    <input
+                      type="checkbox"
+                      checked={selectedItems.length === mockData.length}
+                      onChange={handleSelectAll}
+                      className="rounded border-border-overlay"
+                    />
+                  </th>
+                  <th className="p-3 text-left">
+                    <button
+                      onClick={() => handleSort('title')}
+                      className="flex items-center text-xs font-medium text-foreground-muted uppercase tracking-wider hover:text-foreground"
+                    >
+                      Title
+                      <ArrowUpDown className="w-3 h-3 ml-1" />
+                    </button>
+                  </th>
+                  <th className="p-3 text-left">
+                    <button
+                      onClick={() => handleSort('status')}
+                      className="flex items-center text-xs font-medium text-foreground-muted uppercase tracking-wider hover:text-foreground"
+                    >
+                      Status
+                      <ArrowUpDown className="w-3 h-3 ml-1" />
+                    </button>
+                  </th>
+                  <th className="p-3 text-left">
+                    <button
+                      onClick={() => handleSort('updated_at')}
+                      className="flex items-center text-xs font-medium text-foreground-muted uppercase tracking-wider hover:text-foreground"
+                    >
+                      Last Modified
+                      <ArrowUpDown className="w-3 h-3 ml-1" />
+                    </button>
+                  </th>
+                  <th className="w-24 p-3 text-left">
+                    <span className="text-xs font-medium text-foreground-muted uppercase tracking-wider">
+                      Actions
+                    </span>
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody className="divide-y divide-border-overlay">
+                {mockData.map((item) => (
+                  <tr
+                    key={item.id}
+                    className="hover:bg-surface-100 transition-colors cursor-pointer"
+                    onClick={() => onEdit(item)}
+                  >
+                    <td className="p-3">
+                      <input
+                        type="checkbox"
+                        checked={selectedItems.includes(item.id)}
+                        onChange={() => handleSelectItem(item.id)}
+                        onClick={(e) => e.stopPropagation()}
+                        className="rounded border-border-overlay"
+                      />
+                    </td>
+                    <td className="p-3">
+                      <div>
+                        <div className="font-medium text-foreground">{item.title}</div>
+                        {item.excerpt && (
+                          <div className="text-sm text-foreground-muted mt-1 truncate max-w-md">
+                            {item.excerpt}
+                          </div>
+                        )}
+                      </div>
+                    </td>
+                    <td className="p-3">
+                      <span
+                        className={`inline-flex px-2 py-1 text-xs font-medium rounded-full border ${getStatusBadge(item.status)}`}
+                      >
+                        {item.status}
+                      </span>
+                    </td>
+                    <td className="p-3 text-sm text-foreground-muted">
+                      {new Date(item.updated_at).toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric'
+                      })}
+                    </td>
+                    <td className="p-3">
+                      <div className="flex items-center gap-1">
+                        <Button
+                          type="text"
+                          size="tiny"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            onEdit(item)
+                          }}
+                        >
+                          <Edit className="w-3 h-3" />
+                        </Button>
+                        <Button type="text" size="tiny">
+                          <Eye className="w-3 h-3" />
+                        </Button>
+                        <Button type="text" size="tiny">
+                          <MoreHorizontal className="w-3 h-3" />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
 
         {mockData.length === 0 && (
           <div className="flex flex-col items-center justify-center h-64 text-center">
