@@ -1,5 +1,7 @@
 export { default as CMSLayout } from './CMSLayout'
 export { default as ContentEditor } from './ContentEditor'
+export { CMSContentPage } from './CMSContentPage'
+export { CMSDigitalAssetManager } from './CMSDigitalAssetManager'
 export { default as ContentList } from './ContentList'
 export { default as MediaLibrary } from './MediaLibrary'
 export { PortableTextEditor } from './PortableTextEditor'

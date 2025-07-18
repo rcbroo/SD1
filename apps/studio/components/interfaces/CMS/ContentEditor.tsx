@@ -5,12 +5,13 @@ import { CMSContent, CMSAIAssistant } from './types'
 
 interface ContentEditorProps {
   content?: CMSContent
-  onSave: (content: Partial<CMSContent>) => void
+  onSave?: (content: Partial<CMSContent>) => void
   onPreview?: () => void
+  onContentChange?: () => void
   aiAssistant?: CMSAIAssistant
 }
 
-const ContentEditor = ({ content, onSave, onPreview, aiAssistant }: ContentEditorProps) => {
+const ContentEditor = ({ content, onSave, onPreview, onContentChange, aiAssistant }: ContentEditorProps) => {
   const [formData, setFormData] = useState<Partial<CMSContent>>({
     title: '',
     slug: '',
@@ -36,6 +37,7 @@ const ContentEditor = ({ content, onSave, onPreview, aiAssistant }: ContentEdito
 
   const handleInputChange = (field: keyof CMSContent, value: any) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
+    onContentChange?.()
   }
 
   const generateSlug = (title: string) => {
@@ -114,7 +116,7 @@ const ContentEditor = ({ content, onSave, onPreview, aiAssistant }: ContentEdito
               Preview
             </Button>
           )}
-          <Button onClick={() => onSave(formData)}>
+          <Button onClick={() => onSave?.(formData)}>
             <Save className="w-4 h-4 mr-2" />
             Save
           </Button>

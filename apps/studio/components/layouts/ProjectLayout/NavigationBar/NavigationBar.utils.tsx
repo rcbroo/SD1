@@ -1,4 +1,19 @@
-import { Blocks, FileText, Lightbulb, List, Logs, Settings } from 'lucide-react'
+import { 
+  Blocks, 
+  FileText, 
+  Lightbulb, 
+  List, 
+  Logs, 
+  Settings,
+  Bot,
+  Puzzle,
+  FileImage,
+  Server,
+  BarChart3,
+  Shield,
+  Home,
+  Zap
+} from 'lucide-react'
 
 import { ICON_SIZE, ICON_STROKE_WIDTH } from 'components/interfaces/Sidebar'
 import { generateAuthMenu } from 'components/layouts/AuthLayout/AuthLayout.utils'
@@ -19,44 +34,25 @@ import {
 } from 'icons'
 import { IS_PLATFORM, PROJECT_STATUS } from 'lib/constants'
 
-export const generateToolRoutes = (ref?: string, project?: Project, features?: {}): Route[] => {
+export const generateDashboardRoutes = (ref?: string, project?: Project): Route[] => {
   const isProjectBuilding = project?.status === PROJECT_STATUS.COMING_UP
   const buildingUrl = `/project/${ref}`
 
   return [
     {
-      key: 'editor',
-      label: 'Table Editor',
-      icon: <TableEditor size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
-      link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/editor`),
-      linkElement: <EditorIndexPageLink projectRef={ref} />,
-    },
-    {
-      key: 'sql',
-      label: 'SQL Editor',
-      icon: <SqlEditor size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
-      link: !IS_PLATFORM
-        ? `/project/${ref}/sql/1`
-        : ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/sql`),
+      key: 'home',
+      label: 'Project Overview',
+      icon: <Home size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+      link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}`),
     },
   ]
 }
-export const generateProductRoutes = (
-  ref?: string,
-  project?: Project,
-  features?: { auth?: boolean; edgeFunctions?: boolean; storage?: boolean; realtime?: boolean }
-): Route[] => {
+export const generateDatabaseRoutes = (ref?: string, project?: Project): Route[] => {
   const isProjectActive = project?.status === PROJECT_STATUS.ACTIVE_HEALTHY
   const isProjectBuilding = project?.status === PROJECT_STATUS.COMING_UP
   const buildingUrl = `/project/${ref}`
 
-  const authEnabled = features?.auth ?? true
-  const edgeFunctionsEnabled = features?.edgeFunctions ?? true
-  const storageEnabled = features?.storage ?? true
-  const realtimeEnabled = features?.realtime ?? true
-
   const databaseMenu = generateDatabaseMenu(project)
-  const authMenu = generateAuthMenu(ref as string)
 
   return [
     {
@@ -72,6 +68,114 @@ export const generateProductRoutes = (
             : `/project/${ref}/database/backups/scheduled`),
       items: databaseMenu,
     },
+    {
+      key: 'editor',
+      label: 'Table Editor',
+      icon: <TableEditor size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+      link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/editor`),
+      linkElement: <EditorIndexPageLink projectRef={ref} />,
+    },
+    {
+      key: 'sql',
+      label: 'SQL Editor',
+      icon: <SqlEditor size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+      link: !IS_PLATFORM
+        ? `/project/${ref}/sql/1`
+        : ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/sql`),
+    },
+    {
+      key: 'api',
+      label: 'API Documentation',
+      icon: <FileText size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+      link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/api`),
+    },
+  ]
+}
+
+export const generateAIAutomationRoutes = (ref?: string, project?: Project): Route[] => {
+  const isProjectBuilding = project?.status === PROJECT_STATUS.COMING_UP
+  const buildingUrl = `/project/${ref}`
+
+  return [
+    {
+      key: 'ai-marketplace',
+      label: 'AI Provider Marketplace',
+      icon: <Bot size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+      link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/ai/marketplace`),
+    },
+    {
+      key: 'ai-chat',
+      label: 'AI Chat Interface',
+      icon: <Bot size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+      link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/ai/chat`),
+    },
+    {
+      key: 'service-automation',
+      label: 'Service Automation',
+      icon: <Zap size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+      link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/ai/automation`),
+    },
+  ]
+}
+
+export const generateIntegrationsRoutes = (ref?: string, project?: Project): Route[] => {
+  const isProjectBuilding = project?.status === PROJECT_STATUS.COMING_UP
+  const buildingUrl = `/project/${ref}`
+
+  return [
+    {
+      key: 'mcp-marketplace',
+      label: 'MCP Marketplace',
+      icon: <Puzzle size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+      link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/mcp/marketplace`),
+    },
+    {
+      key: 'mcp-installed',
+      label: 'Installed MCP Servers',
+      icon: <Puzzle size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+      link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/mcp/installed`),
+    },
+    {
+      key: 'mcp-configuration',
+      label: 'MCP Configuration',
+      icon: <Settings size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+      link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/mcp/configuration`),
+    },
+    {
+      key: 'integrations',
+      label: 'Custom Connectors',
+      icon: <Blocks size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+      link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/integrations`),
+    },
+  ]
+}
+
+export const generateApplicationsRoutes = (
+  ref?: string,
+  project?: Project,
+  features?: { auth?: boolean; edgeFunctions?: boolean; storage?: boolean; realtime?: boolean }
+): Route[] => {
+  const isProjectBuilding = project?.status === PROJECT_STATUS.COMING_UP
+  const buildingUrl = `/project/${ref}`
+
+  const authEnabled = features?.auth ?? true
+  const edgeFunctionsEnabled = features?.edgeFunctions ?? true
+  const storageEnabled = features?.storage ?? true
+  const realtimeEnabled = features?.realtime ?? true
+
+  const authMenu = generateAuthMenu(ref as string)
+
+  return [
+    ...(edgeFunctionsEnabled
+      ? [
+          {
+            key: 'functions',
+            label: 'Edge Functions',
+            icon: <EdgeFunctions size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+            link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/functions`),
+          },
+        ]
+      : []),
     ...(authEnabled
       ? [
           {
@@ -80,6 +184,16 @@ export const generateProductRoutes = (
             icon: <Auth size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
             link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/auth/users`),
             items: authMenu,
+          },
+        ]
+      : []),
+    ...(realtimeEnabled
+      ? [
+          {
+            key: 'realtime',
+            label: 'Realtime Settings',
+            icon: <Realtime size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+            link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/realtime/inspector`),
           },
         ]
       : []),
@@ -93,30 +207,118 @@ export const generateProductRoutes = (
           },
         ]
       : []),
-    ...(edgeFunctionsEnabled
+  ]
+}
+
+export const generateCMSRoutes = (ref?: string, project?: Project): Route[] => {
+  const isProjectBuilding = project?.status === PROJECT_STATUS.COMING_UP
+  const buildingUrl = `/project/${ref}`
+
+  return [
+    {
+      key: 'cms-content',
+      label: 'Content Management',
+      icon: <FileImage size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+      link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/cms/content`),
+    },
+    {
+      key: 'media-library',
+      label: 'Digital Asset Management',
+      icon: <FileImage size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+      link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/media/library`),
+    },
+    {
+      key: 'player-cores',
+      label: 'Player Cores',
+      icon: <FileImage size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+      link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/media/cores`),
+    },
+  ]
+}
+
+export const generateInfrastructureRoutes = (ref?: string, project?: Project): Route[] => {
+  const isProjectBuilding = project?.status === PROJECT_STATUS.COMING_UP
+  const buildingUrl = `/project/${ref}`
+
+  return [
+    {
+      key: 'infrastructure-overview',
+      label: 'Infrastructure Overview',
+      icon: <Server size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+      link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/infrastructure/overview`),
+    },
+    {
+      key: 'compute-providers',
+      label: 'Compute Providers',
+      icon: <Server size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+      link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/infrastructure/compute`),
+    },
+    {
+      key: 'storage-management',
+      label: 'Storage Management',
+      icon: <Server size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+      link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/infrastructure/storage`),
+    },
+    {
+      key: 'cost-analytics',
+      label: 'Cost Analytics',
+      icon: <BarChart3 size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+      link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/infrastructure/costs`),
+    },
+  ]
+}
+
+export const generateAnalyticsRoutes = (ref?: string, project?: Project): Route[] => {
+  const isProjectBuilding = project?.status === PROJECT_STATUS.COMING_UP
+  const buildingUrl = `/project/${ref}`
+
+  return [
+    {
+      key: 'analytics-dashboard',
+      label: 'Analytics Dashboard',
+      icon: <BarChart3 size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+      link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/analytics/overview`),
+    },
+    {
+      key: 'logs',
+      label: 'Logs & Monitoring',
+      icon: <List size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+      link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/logs`),
+    },
+    ...(IS_PLATFORM
       ? [
           {
-            key: 'functions',
-            label: 'Edge Functions',
-            icon: <EdgeFunctions size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
-            link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/functions`),
-          },
-        ]
-      : []),
-    ...(realtimeEnabled
-      ? [
-          {
-            key: 'realtime',
-            label: 'Realtime',
-            icon: <Realtime size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
-            link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/realtime/inspector`),
+            key: 'reports',
+            label: 'Usage Reports',
+            icon: <Reports size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+            link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/reports`),
           },
         ]
       : []),
   ]
 }
 
-export const generateOtherRoutes = (
+export const generateSecurityRoutes = (ref?: string, project?: Project): Route[] => {
+  const isProjectBuilding = project?.status === PROJECT_STATUS.COMING_UP
+  const buildingUrl = `/project/${ref}`
+
+  return [
+    {
+      key: 'security-dashboard',
+      label: 'Security Dashboard',
+      icon: <Shield size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+      link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/security/dashboard`),
+    },
+    {
+      key: 'advisors',
+      label: 'Security Advisors',
+      icon: <Lightbulb size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+      link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/advisors/security`),
+    },
+  ]
+}
+
+export const generateQuickActionsRoutes = (
   ref?: string,
   project?: Project,
   features?: { unifiedLogs?: boolean }
@@ -127,28 +329,6 @@ export const generateOtherRoutes = (
   const showUnifiedLogs = features?.unifiedLogs ?? false
 
   return [
-    {
-      key: 'advisors',
-      label: 'Advisors',
-      icon: <Lightbulb size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
-      link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/advisors/security`),
-    },
-    ...(IS_PLATFORM
-      ? [
-          {
-            key: 'reports',
-            label: 'Reports',
-            icon: <Reports size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
-            link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/reports`),
-          },
-        ]
-      : []),
-    {
-      key: 'logs',
-      label: 'Logs',
-      icon: <List size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
-      link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/logs`),
-    },
     ...(showUnifiedLogs
       ? [
           {
@@ -159,18 +339,6 @@ export const generateOtherRoutes = (
           },
         ]
       : []),
-    {
-      key: 'api',
-      label: 'API Docs',
-      icon: <FileText size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
-      link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/api`),
-    },
-    {
-      key: 'integrations',
-      label: 'Integrations',
-      icon: <Blocks size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
-      link: ref && (isProjectBuilding ? buildingUrl : `/project/${ref}/integrations`),
-    },
   ]
 }
 
