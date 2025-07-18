@@ -99,7 +99,7 @@ const ProjectLayout = forwardRef<HTMLDivElement, PropsWithChildren<ProjectLayout
 
     const editor = useEditorType()
     const forceShowProductMenu = editor === undefined
-    const sideBarIsOpen = forceShowProductMenu || showSidebar
+    const sideBarIsOpen = true
 
     const projectName = selectedProject?.name
     const organizationName = selectedOrganization?.name
@@ -164,37 +164,21 @@ const ProjectLayout = forwardRef<HTMLDivElement, PropsWithChildren<ProjectLayout
               <ResizablePanel
                 order={1}
                 maxSize={33}
-                defaultSize={1}
+                defaultSize={4}
                 id="panel-left"
                 className={cn(
-                  'hidden md:block',
+                  'block',
                   'transition-all duration-[120ms]',
-                  sideBarIsOpen
-                    ? resizableSidebar
-                      ? 'min-w-64 max-w-[32rem]'
-                      : 'min-w-64 max-w-64'
-                    : 'w-0 flex-shrink-0 max-w-0'
+                  'min-w-16 max-w-16'
                 )}
               >
-                {sideBarIsOpen && (
-                  <AnimatePresence initial={false}>
-                    <motion.div
-                      initial={{ width: 0, opacity: 0, height: '100%' }}
-                      animate={{ width: 'auto', opacity: 1, height: '100%' }}
-                      exit={{ width: 0, opacity: 0, height: '100%' }}
-                      className="h-full"
-                      transition={{ duration: 0.12 }}
-                    >
-                      <MenuBarWrapper
-                        isLoading={isLoading}
-                        isBlocking={isBlocking}
-                        productMenu={productMenu}
-                      >
-                        <ProductMenuBar title={product}>{productMenu}</ProductMenuBar>
-                      </MenuBarWrapper>
-                    </motion.div>
-                  </AnimatePresence>
-                )}
+                <MenuBarWrapper
+                  isLoading={isLoading}
+                  isBlocking={isBlocking}
+                  productMenu={productMenu}
+                >
+                  <ProductMenuBar title={product}>{productMenu}</ProductMenuBar>
+                </MenuBarWrapper>
               </ResizablePanel>
             )}
             {showProductMenu && productMenu && sideBarIsOpen && (
@@ -204,7 +188,7 @@ const ProjectLayout = forwardRef<HTMLDivElement, PropsWithChildren<ProjectLayout
                 className="hidden md:flex"
               />
             )}
-            <ResizablePanel order={2} id="panel-right" className="h-full flex flex-col w-full">
+            <ResizablePanel order={2} id="panel-right" defaultSize={80} className="h-full flex flex-col w-full">
               <ResizablePanelGroup
                 direction="horizontal"
                 className="h-full w-full overflow-x-hidden flex-1 flex flex-row gap-0"
@@ -212,6 +196,7 @@ const ProjectLayout = forwardRef<HTMLDivElement, PropsWithChildren<ProjectLayout
               >
                 <ResizablePanel
                   id="panel-content"
+                  defaultSize={80}
                   className={cn('w-full xl:min-w-[600px] bg-dash-sidebar')}
                 >
                   <main
@@ -237,6 +222,7 @@ const ProjectLayout = forwardRef<HTMLDivElement, PropsWithChildren<ProjectLayout
                     <ResizableHandle withHandle />
                     <ResizablePanel
                       id="panel-assistant"
+                      defaultSize={40}
                       minSize={30}
                       maxSize={50}
                       className={cn(

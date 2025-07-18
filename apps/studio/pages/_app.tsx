@@ -120,10 +120,12 @@ function CustomApp({ Component, pageProps }: AppPropsWithLayout) {
                   <TooltipProvider delayDuration={0}>
                     <RouteValidationWrapper>
                       <ThemeProvider
-                        defaultTheme="system"
+                        defaultTheme="dark"
                         themes={['dark', 'light', 'classic-dark']}
-                        enableSystem
+                        enableSystem={false}
                         disableTransitionOnChange
+                        forcedTheme="dark"
+                        storageKey="supabase-theme"
                       >
                         <AppBannerContextProvider>
                           <CommandProvider>

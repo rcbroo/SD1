@@ -135,13 +135,11 @@ export const ChartConfig = ({
     <ResizablePanelGroup direction="horizontal" className="flex-grow h-full">
       <ResizablePanel className="p-4 h-full" defaultSize={75}>
         {!hasConfig ? (
-          <ResizablePanel className="p-4 h-full" defaultSize={75}>
-            <NoDataPlaceholder
-              size="normal"
-              title="Configure your chart"
-              description="Select your X and Y axis in the chart options panel"
-            />
-          </ResizablePanel>
+          <NoDataPlaceholder
+            size="normal"
+            title="Configure your chart"
+            description="Select your X and Y axis in the chart options panel"
+          />
         ) : config.type === 'bar' ? (
           <BarChart
             showLegend

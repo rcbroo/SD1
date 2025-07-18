@@ -455,7 +455,7 @@ export const UsersV2 = () => {
           className="relative flex flex-grow bg-alternative min-h-0"
           autoSaveId="query-performance-layout-v1"
         >
-          <ResizablePanel defaultSize={1}>
+          <ResizablePanel defaultSize={70}>
             <div className="flex flex-col w-full h-full">
               <DataGrid
                 ref={gridRef}

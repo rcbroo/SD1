@@ -361,7 +361,7 @@ export const LogsExplorerPage: NextPageWithLayout = () => {
         direction="vertical"
         autoSaveId={LOCAL_STORAGE_KEYS.LOG_EXPLORER_SPLIT_SIZE}
       >
-        <ResizablePanel collapsible minSize={5}>
+        <ResizablePanel collapsible minSize={5} defaultSize={50}>
           <LogsQueryPanel
             defaultFrom={timestampStart || ''}
             defaultTo={timestampEnd || ''}
@@ -407,7 +407,7 @@ export const LogsExplorerPage: NextPageWithLayout = () => {
           )}
         </ResizablePanel>
         <ResizableHandle withHandle />
-        <ResizablePanel collapsible minSize={5} className="overflow-auto">
+        <ResizablePanel collapsible minSize={5} defaultSize={50} className="overflow-auto">
           <LoadingOpacity active={isLoading}>
             <LogTable
               isSaving={isUpsertingContent}

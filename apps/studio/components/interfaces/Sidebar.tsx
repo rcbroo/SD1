@@ -6,11 +6,19 @@ import { useRouter } from 'next/router'
 import { ComponentProps, ComponentPropsWithoutRef, FC, ReactNode, useEffect } from 'react'
 
 import { LOCAL_STORAGE_KEYS, useIsMFAEnabled, useParams } from 'common'
+import { Plus, MessageSquare, Zap, BarChart3 } from 'lucide-react'
 import {
-  generateOtherRoutes,
-  generateProductRoutes,
+  generateDashboardRoutes,
+  generateDatabaseRoutes,
+  generateAIAutomationRoutes,
+  generateIntegrationsRoutes,
+  generateApplicationsRoutes,
+  generateCMSRoutes,
+  generateInfrastructureRoutes,
+  generateAnalyticsRoutes,
+  generateSecurityRoutes,
+  generateQuickActionsRoutes,
   generateSettingsRoutes,
-  generateToolRoutes,
 } from 'components/layouts/ProjectLayout/NavigationBar/NavigationBar.utils'
 import { useProjectContext } from 'components/layouts/ProjectLayout/ProjectContext'
 import { ProjectIndexPageLink } from 'data/prefetchers/project.$ref'
@@ -240,55 +248,91 @@ const ProjectLinks = () => {
     'realtime:all',
   ])
 
-  const toolRoutes = generateToolRoutes(ref, project)
-  const productRoutes = generateProductRoutes(ref, project, {
+  const dashboardRoutes = generateDashboardRoutes(ref, project)
+  const databaseRoutes = generateDatabaseRoutes(ref, project)
+  const aiAutomationRoutes = generateAIAutomationRoutes(ref, project)
+  const integrationsRoutes = generateIntegrationsRoutes(ref, project)
+  const applicationsRoutes = generateApplicationsRoutes(ref, project, {
     auth: authEnabled,
     edgeFunctions: edgeFunctionsEnabled,
     storage: storageEnabled,
     realtime: realtimeEnabled,
   })
-  const otherRoutes = generateOtherRoutes(ref, project, { unifiedLogs: showUnifiedLogs })
+  const cmsRoutes = generateCMSRoutes(ref, project)
+  const infrastructureRoutes = generateInfrastructureRoutes(ref, project)
+  const analyticsRoutes = generateAnalyticsRoutes(ref, project)
+  const securityRoutes = generateSecurityRoutes(ref, project)
+  const quickActionsRoutes = generateQuickActionsRoutes(ref, project, { unifiedLogs: showUnifiedLogs })
   const settingsRoutes = generateSettingsRoutes(ref, project)
 
   return (
     <SidebarMenu>
-      <SidebarGroup className="gap-0.5">
+      {/* Quick Actions Panel */}
+      <div className="px-3 py-2 text-xs font-medium text-foreground-light uppercase tracking-wider">
+        Quick Actions
+      </div>
+      <SidebarGroup className="gap-0.5 mb-4">
         <SideBarNavLink
-          key="home"
-          active={isUndefined(activeRoute) && !isUndefined(router.query.ref)}
           route={{
-            key: 'HOME',
-            label: 'Project overview',
-            icon: <Home size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
-            link: `/project/${ref}`,
-            linkElement: <ProjectIndexPageLink projectRef={ref} />,
+            key: 'quick-create-table',
+            label: 'Create Table',
+            icon: <Plus size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+            link: `/project/${ref}/database/tables`,
           }}
         />
-        {toolRoutes.map((route, i) => (
+        <SideBarNavLink
+          route={{
+            key: 'quick-ai-chat',
+            label: 'Launch AI Chat',
+            icon: <MessageSquare size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+            link: `/project/${ref}/ai/chat`,
+          }}
+        />
+        <SideBarNavLink
+          route={{
+            key: 'quick-deploy-function',
+            label: 'Deploy Function',
+            icon: <Zap size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+            link: `/project/${ref}/functions`,
+          }}
+        />
+        <SideBarNavLink
+          route={{
+            key: 'quick-view-analytics',
+            label: 'View Analytics',
+            icon: <BarChart3 size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+            link: `/project/${ref}/analytics/overview`,
+          }}
+        />
+      </SidebarGroup>
+      
+      <Separator className="w-[calc(100%-1rem)] mx-auto" />
+      {/* Dashboard Section */}
+      <div className="px-3 py-2 text-xs font-medium text-foreground-light uppercase tracking-wider">
+        Dashboard
+      </div>
+      <SidebarGroup className="gap-0.5">
+        {dashboardRoutes.map((route, i) => (
           <SideBarNavLink
-            key={`tools-routes-${i}`}
+            key={`dashboard-routes-${i}`}
             route={route}
-            active={activeRoute === route.key}
+            active={isUndefined(activeRoute) && !isUndefined(router.query.ref)}
           />
         ))}
       </SidebarGroup>
+      
       <Separator className="w-[calc(100%-1rem)] mx-auto" />
+      
+      {/* Database Section */}
+      <div className="px-3 py-2 text-xs font-medium text-foreground-light uppercase tracking-wider">
+        Database
+      </div>
       <SidebarGroup className="gap-0.5">
-        {productRoutes.map((route, i) => (
-          <SideBarNavLink
-            key={`product-routes-${i}`}
-            route={route}
-            active={activeRoute === route.key}
-          />
-        ))}
-      </SidebarGroup>
-      <Separator className="w-[calc(100%-1rem)] mx-auto" />
-      <SidebarGroup className="gap-0.5">
-        {otherRoutes.map((route, i) => {
+        {databaseRoutes.map((route, i) => {
           if (route.key === 'api' && isNewAPIDocsEnabled) {
             return (
               <SideBarNavLink
-                key={`other-routes-${i}`}
+                key={`database-routes-${i}`}
                 route={{
                   label: route.label,
                   icon: route.icon,
@@ -299,40 +343,179 @@ const ProjectLinks = () => {
                 }}
               />
             )
-          } else if (route.key === 'advisors') {
+          }
+          return (
+            <SideBarNavLink
+              key={`database-routes-${i}`}
+              route={route}
+              active={activeRoute === route.key}
+            />
+          )
+        })}
+      </SidebarGroup>
+      
+      <Separator className="w-[calc(100%-1rem)] mx-auto" />
+      
+      {/* AI & Automation Section */}
+      <div className="px-3 py-2 text-xs font-medium text-foreground-light uppercase tracking-wider">
+        AI &amp; Automation
+      </div>
+      <SidebarGroup className="gap-0.5">
+        {aiAutomationRoutes.map((route, i) => (
+          <SideBarNavLink
+            key={`ai-automation-routes-${i}`}
+            route={route}
+            active={activeRoute === route.key}
+          />
+        ))}
+      </SidebarGroup>
+      
+      <Separator className="w-[calc(100%-1rem)] mx-auto" />
+      
+      {/* Integrations Section */}
+      <div className="px-3 py-2 text-xs font-medium text-foreground-light uppercase tracking-wider">
+        Integrations
+      </div>
+      <SidebarGroup className="gap-0.5">
+        {integrationsRoutes.map((route, i) => (
+          <SideBarNavLink
+            key={`integrations-routes-${i}`}
+            route={route}
+            active={activeRoute === route.key}
+          />
+        ))}
+      </SidebarGroup>
+      
+      <Separator className="w-[calc(100%-1rem)] mx-auto" />
+      
+      {/* Applications Section */}
+      <div className="px-3 py-2 text-xs font-medium text-foreground-light uppercase tracking-wider">
+        Applications
+      </div>
+      <SidebarGroup className="gap-0.5">
+        {applicationsRoutes.map((route, i) => (
+          <SideBarNavLink
+            key={`applications-routes-${i}`}
+            route={route}
+            active={activeRoute === route.key}
+          />
+        ))}
+      </SidebarGroup>
+      
+      <Separator className="w-[calc(100%-1rem)] mx-auto" />
+      
+      {/* CMS Section */}
+      <div className="px-3 py-2 text-xs font-medium text-foreground-light uppercase tracking-wider">
+        CMS
+      </div>
+      <SidebarGroup className="gap-0.5">
+        {cmsRoutes.map((route, i) => (
+          <SideBarNavLink
+            key={`cms-routes-${i}`}
+            route={route}
+            active={activeRoute === route.key}
+          />
+        ))}
+      </SidebarGroup>
+      
+      <Separator className="w-[calc(100%-1rem)] mx-auto" />
+      
+      {/* Infrastructure Section */}
+      <div className="px-3 py-2 text-xs font-medium text-foreground-light uppercase tracking-wider">
+        Infrastructure
+      </div>
+      <SidebarGroup className="gap-0.5">
+        {infrastructureRoutes.map((route, i) => (
+          <SideBarNavLink
+            key={`infrastructure-routes-${i}`}
+            route={route}
+            active={activeRoute === route.key}
+          />
+        ))}
+      </SidebarGroup>
+      
+      <Separator className="w-[calc(100%-1rem)] mx-auto" />
+      
+      {/* Analytics & Insights Section */}
+      <div className="px-3 py-2 text-xs font-medium text-foreground-light uppercase tracking-wider">
+        Analytics &amp; Insights
+      </div>
+      <SidebarGroup className="gap-0.5">
+        {analyticsRoutes.map((route, i) => {
+          if (route.key === 'logs') {
+            const label = showWarehouse ? 'Logs &amp; Analytics' : route.label
+            const newRoute = { ...route, label }
+            return (
+              <SideBarNavLink
+                key={`analytics-routes-${i}`}
+                route={newRoute}
+                active={activeRoute === newRoute.key}
+              />
+            )
+          }
+          return (
+            <SideBarNavLink
+              key={`analytics-routes-${i}`}
+              route={route}
+              active={activeRoute === route.key}
+            />
+          )
+        })}
+      </SidebarGroup>
+      
+      <Separator className="w-[calc(100%-1rem)] mx-auto" />
+      
+      {/* Security Section */}
+      <div className="px-3 py-2 text-xs font-medium text-foreground-light uppercase tracking-wider">
+        Security
+      </div>
+      <SidebarGroup className="gap-0.5">
+        {securityRoutes.map((route, i) => {
+          if (route.key === 'advisors') {
             return (
               <div className="relative" key={route.key}>
                 {ActiveDot(errorLints, securityLints)}
                 <SideBarNavLink
-                  key={`other-routes-${i}`}
+                  key={`security-routes-${i}`}
                   route={route}
                   active={activeRoute === route.key}
                 />
               </div>
             )
-          } else if (route.key === 'logs') {
-            // TODO: Undo this when warehouse flag is removed
-            const label = showWarehouse ? 'Logs & Analytics' : route.label
-            const newRoute = { ...route, label }
-            return (
+          }
+          return (
+            <SideBarNavLink
+              key={`security-routes-${i}`}
+              route={route}
+              active={activeRoute === route.key}
+            />
+          )
+        })}
+      </SidebarGroup>
+      
+      {/* Quick Actions (if any) */}
+      {quickActionsRoutes && quickActionsRoutes.length > 0 && (
+        <>
+          <Separator className="w-[calc(100%-1rem)] mx-auto" />
+          <div className="px-3 py-2 text-xs font-medium text-foreground-light uppercase tracking-wider">
+            Quick Actions
+          </div>
+          <SidebarGroup className="gap-0.5">
+            {quickActionsRoutes.map((route, i) => (
               <SideBarNavLink
-                key={`other-routes-${i}`}
-                route={newRoute}
-                active={activeRoute === newRoute.key}
-              />
-            )
-          } else {
-            return (
-              <SideBarNavLink
-                key={`other-routes-${i}`}
+                key={`quick-actions-routes-${i}`}
                 route={route}
                 active={activeRoute === route.key}
               />
-            )
-          }
-        })}
-      </SidebarGroup>
-      {/* Settings routes to be added in with project/org nav */}
+            ))}
+          </SidebarGroup>
+        </>
+      )}
+      
+      {/* Settings Section */}
+      <div className="px-3 py-2 text-xs font-medium text-foreground-light uppercase tracking-wider">
+        Settings
+      </div>
       <SidebarGroup className="gap-0.5">
         {settingsRoutes.map((route, i) => (
           <SideBarNavLink
